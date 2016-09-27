@@ -1,0 +1,10 @@
+/build/
+rebel.xml
+.gradle/
+workspace.xml
+classes
+fortune/algorithm/build/
+fortune/preview/build/
+test/build/
+*.class
+algorithm/delaunay/build/

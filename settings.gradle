@@ -1,0 +1,5 @@
+rootProject.buildFileName = 'build.gradle'
+include ':test'
+include ':algorithm:delaunay'
+include ':algorithm:preview-delaunay'
+
