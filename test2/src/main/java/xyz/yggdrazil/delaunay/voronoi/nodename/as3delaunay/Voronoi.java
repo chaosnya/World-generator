@@ -299,7 +299,7 @@ public final class Voronoi {
                 // Step 8:
                 lbnd = edgeList.edgeListLeftNeighbor(newSite.getCoord());    // the Halfedge just to the left of newSite
                 //trace("lbnd: " + lbnd);
-                rbnd = lbnd.edgeListRightNeighbor;        // the Halfedge just to the right
+                rbnd = lbnd.getEdgeListRightNeighbor();        // the Halfedge just to the right
                 //trace("rbnd: " + rbnd);
                 bottomSite = rightRegion(lbnd, bottomMostSite);        // this is the same as leftRegion(rbnd)
                 // this Site determines the region containing the new site
@@ -310,7 +310,7 @@ public final class Voronoi {
                 //trace("new edge: " + edge);
                 _edges.add(edge);
 
-                bisector = Halfedge.create(edge, LR.LEFT);
+                bisector = Halfedge.Companion.create(edge, LR.LEFT);
                 halfEdges.add(bisector);
                 // inserting two Halfedges into edgeList constitutes Step 10:
                 // insert bisector to the right of lbnd:
@@ -320,13 +320,13 @@ public final class Voronoi {
                 if ((vertex = Vertex.intersect(lbnd, bisector)) != null) {
                     vertices.add(vertex);
                     heap.remove(lbnd);
-                    lbnd.vertex = vertex;
-                    lbnd.ystar = vertex.get_y() + newSite.dist(vertex);
+                    lbnd.setVertex(vertex);
+                    lbnd.setYstar(vertex.get_y() + newSite.dist(vertex));
                     heap.insert(lbnd);
                 }
 
                 lbnd = bisector;
-                bisector = Halfedge.create(edge, LR.RIGHT);
+                bisector = Halfedge.Companion.create(edge, LR.RIGHT);
                 halfEdges.add(bisector);
                 // second Halfedge for Step 10:
                 // insert bisector to the right of lbnd:
@@ -335,8 +335,8 @@ public final class Voronoi {
                 // second half of Step 11:
                 if ((vertex = Vertex.intersect(bisector, rbnd)) != null) {
                     vertices.add(vertex);
-                    bisector.vertex = vertex;
-                    bisector.ystar = vertex.get_y() + newSite.dist(vertex);
+                    bisector.setVertex(vertex);
+                    bisector.setYstar(vertex.get_y() + newSite.dist(vertex));
                     heap.insert(bisector);
                 }
 
@@ -344,19 +344,19 @@ public final class Voronoi {
             } else if (!heap.empty()) {
                 /* intersection is smallest */
                 lbnd = heap.extractMin();
-                llbnd = lbnd.edgeListLeftNeighbor;
-                rbnd = lbnd.edgeListRightNeighbor;
-                rrbnd = rbnd.edgeListRightNeighbor;
+                llbnd = lbnd.getEdgeListLeftNeighbor();
+                rbnd = lbnd.getEdgeListRightNeighbor();
+                rrbnd = rbnd.getEdgeListRightNeighbor();
                 bottomSite = leftRegion(lbnd, bottomMostSite);
                 topSite = rightRegion(rbnd, bottomMostSite);
                 // these three sites define a Delaunay triangle
                 // (not actually using these for anything...)
                 //_triangles.push(new Triangle(bottomSite, topSite, rightRegion(lbnd)));
 
-                v = lbnd.vertex;
+                v = lbnd.getVertex();
                 v.setIndex();
-                lbnd.edge.setVertex(lbnd.leftRight, v);
-                rbnd.edge.setVertex(rbnd.leftRight, v);
+                lbnd.getEdge().setVertex(lbnd.getLeftRight(), v);
+                rbnd.getEdge().setVertex(rbnd.getLeftRight(), v);
                 edgeList.remove(lbnd);
                 heap.remove(rbnd);
                 edgeList.remove(rbnd);
@@ -369,21 +369,21 @@ public final class Voronoi {
                 }
                 edge = Edge.Companion.createBisectingEdge(bottomSite, topSite);
                 _edges.add(edge);
-                bisector = Halfedge.create(edge, leftRight);
+                bisector = Halfedge.Companion.create(edge, leftRight);
                 halfEdges.add(bisector);
                 edgeList.insert(llbnd, bisector);
                 edge.setVertex(LR.other(leftRight), v);
                 if ((vertex = Vertex.intersect(llbnd, bisector)) != null) {
                     vertices.add(vertex);
                     heap.remove(llbnd);
-                    llbnd.vertex = vertex;
-                    llbnd.ystar = vertex.get_y() + bottomSite.dist(vertex);
+                    llbnd.setVertex(vertex);
+                    llbnd.setYstar(vertex.get_y() + bottomSite.dist(vertex));
                     heap.insert(llbnd);
                 }
                 if ((vertex = Vertex.intersect(bisector, rrbnd)) != null) {
                     vertices.add(vertex);
-                    bisector.vertex = vertex;
-                    bisector.ystar = vertex.get_y() + bottomSite.dist(vertex);
+                    bisector.setVertex(vertex);
+                    bisector.setYstar(vertex.get_y() + bottomSite.dist(vertex));
                     heap.insert(bisector);
                 }
             } else {
@@ -414,19 +414,19 @@ public final class Voronoi {
     }
 
     Site leftRegion(Halfedge he, Site bottomMostSite) {
-        Edge edge = he.edge;
+        Edge edge = he.getEdge();
         if (edge == null) {
             return bottomMostSite;
         }
-        return edge.site(he.leftRight);
+        return edge.site(he.getLeftRight());
     }
 
     Site rightRegion(Halfedge he, Site bottomMostSite) {
-        Edge edge = he.edge;
+        Edge edge = he.getEdge();
         if (edge == null) {
             return bottomMostSite;
         }
-        return edge.site(LR.other(he.leftRight));
+        return edge.site(LR.other(he.getLeftRight()));
     }
 
     public static int compareByYThenX(Site s1, Site s2) {

@@ -10,12 +10,12 @@ class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites
     var rightEnd: Halfedge? = null
 
     override fun dispose() {
-        var halfEdge = leftEnd!!
-        var prevHe: Halfedge
+        var halfEdge = leftEnd
+        var prevHe: Halfedge?
         while (halfEdge != rightEnd) {
             prevHe = halfEdge
-            halfEdge = halfEdge.edgeListRightNeighbor
-            prevHe.dispose()
+            halfEdge = halfEdge?.edgeListRightNeighbor
+            prevHe?.dispose()
         }
         leftEnd = null
         rightEnd!!.dispose()
@@ -56,7 +56,7 @@ class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites
     fun insert(lb: Halfedge, newHalfedge: Halfedge) {
         newHalfedge.edgeListLeftNeighbor = lb
         newHalfedge.edgeListRightNeighbor = lb.edgeListRightNeighbor
-        lb.edgeListRightNeighbor.edgeListLeftNeighbor = newHalfedge
+        lb.edgeListRightNeighbor?.edgeListLeftNeighbor = newHalfedge
         lb.edgeListRightNeighbor = newHalfedge
     }
 
@@ -67,8 +67,8 @@ class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites
      * @param halfEdge
      */
     fun remove(halfEdge: Halfedge) {
-        halfEdge.edgeListLeftNeighbor.edgeListRightNeighbor = halfEdge.edgeListRightNeighbor
-        halfEdge.edgeListRightNeighbor.edgeListLeftNeighbor = halfEdge.edgeListLeftNeighbor
+        halfEdge.edgeListLeftNeighbor?.edgeListRightNeighbor = halfEdge.edgeListRightNeighbor
+        halfEdge.edgeListRightNeighbor?.edgeListLeftNeighbor = halfEdge.edgeListLeftNeighbor
         halfEdge.edge = Edge.DELETED
         halfEdge.edgeListLeftNeighbor = null
         halfEdge.edgeListRightNeighbor = null

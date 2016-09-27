@@ -38,8 +38,8 @@ public final class HalfedgePriorityQueue // also known as heap
         _hash = new ArrayList(_hashsize);
         // dummy Halfedge at the top of each hash
         for (i = 0; i < _hashsize; ++i) {
-            _hash.add(Halfedge.createDummy());
-            _hash.get(i).nextInPriorityQueue = null;
+            _hash.add(Halfedge.Companion.createDummy());
+            _hash.get(i).setNextInPriorityQueue(null);
         }
     }
 
@@ -50,12 +50,12 @@ public final class HalfedgePriorityQueue // also known as heap
             _minBucket = insertionBucket;
         }
         previous = _hash.get(insertionBucket);
-        while ((next = previous.nextInPriorityQueue) != null
-                && (halfEdge.ystar > next.ystar || (halfEdge.ystar == next.ystar && halfEdge.vertex.get_x() > next.vertex.get_x()))) {
+        while ((next = previous.getNextInPriorityQueue()) != null
+                && (halfEdge.getYstar() > next.getYstar() || (halfEdge.getYstar() == next.getYstar() && halfEdge.getVertex().get_x() > next.getVertex().get_x()))) {
             previous = next;
         }
-        halfEdge.nextInPriorityQueue = previous.nextInPriorityQueue;
-        previous.nextInPriorityQueue = halfEdge;
+        halfEdge.setNextInPriorityQueue(previous.getNextInPriorityQueue());
+        previous.setNextInPriorityQueue(halfEdge);
         ++_count;
     }
 
@@ -63,21 +63,21 @@ public final class HalfedgePriorityQueue // also known as heap
         Halfedge previous;
         int removalBucket = bucket(halfEdge);
 
-        if (halfEdge.vertex != null) {
+        if (halfEdge.getVertex() != null) {
             previous = _hash.get(removalBucket);
-            while (previous.nextInPriorityQueue != halfEdge) {
-                previous = previous.nextInPriorityQueue;
+            while (previous.getNextInPriorityQueue() != halfEdge) {
+                previous = previous.getNextInPriorityQueue();
             }
-            previous.nextInPriorityQueue = halfEdge.nextInPriorityQueue;
+            previous.setNextInPriorityQueue(halfEdge.getNextInPriorityQueue());
             _count--;
-            halfEdge.vertex = null;
-            halfEdge.nextInPriorityQueue = null;
+            halfEdge.setVertex(null);
+            halfEdge.setNextInPriorityQueue(null);
             halfEdge.dispose();
         }
     }
 
     private int bucket(Halfedge halfEdge) {
-        int theBucket = (int) ((halfEdge.ystar - _ymin) / _deltay * _hashsize);
+        int theBucket = (int) ((halfEdge.getYstar() - _ymin) / _deltay * _hashsize);
         if (theBucket < 0) {
             theBucket = 0;
         }
@@ -88,7 +88,7 @@ public final class HalfedgePriorityQueue // also known as heap
     }
 
     private boolean isEmpty(int bucket) {
-        return (_hash.get(bucket).nextInPriorityQueue == null);
+        return (_hash.get(bucket).getNextInPriorityQueue() == null);
     }
 
     /**
@@ -111,8 +111,8 @@ public final class HalfedgePriorityQueue // also known as heap
      */
     public Point min() {
         adjustMinBucket();
-        Halfedge answer = _hash.get(_minBucket).nextInPriorityQueue;
-        return new Point(answer.vertex.get_x(), answer.ystar);
+        Halfedge answer = _hash.get(_minBucket).getNextInPriorityQueue();
+        return new Point(answer.getVertex().get_x(), answer.getYstar());
     }
 
     /**
@@ -124,11 +124,11 @@ public final class HalfedgePriorityQueue // also known as heap
         Halfedge answer;
 
         // get the first real Halfedge in _minBucket
-        answer = _hash.get(_minBucket).nextInPriorityQueue;
+        answer = _hash.get(_minBucket).getNextInPriorityQueue();
 
-        _hash.get(_minBucket).nextInPriorityQueue = answer.nextInPriorityQueue;
+        _hash.get(_minBucket).setNextInPriorityQueue(answer.getNextInPriorityQueue());
         _count--;
-        answer.nextInPriorityQueue = null;
+        answer.setNextInPriorityQueue(null);
 
         return answer;
     }

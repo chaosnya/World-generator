@@ -72,8 +72,8 @@ final public class Vertex implements ICoord {
         double determinant, intersectionX, intersectionY;
         boolean rightOfSite;
 
-        edge0 = halfedge0.edge;
-        edge1 = halfedge1.edge;
+        edge0 = halfedge0.getEdge();
+        edge1 = halfedge1.getEdge();
         if (edge0 == null || edge1 == null) {
             return null;
         }
@@ -98,8 +98,8 @@ final public class Vertex implements ICoord {
             edge = edge1;
         }
         rightOfSite = intersectionX >= edge.getRightSite().get_x();
-        if ((rightOfSite && halfedge.leftRight == LR.LEFT)
-                || (!rightOfSite && halfedge.leftRight == LR.RIGHT)) {
+        if ((rightOfSite && halfedge.getLeftRight() == LR.LEFT)
+                || (!rightOfSite && halfedge.getLeftRight() == LR.RIGHT)) {
             return null;
         }
 
