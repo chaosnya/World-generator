@@ -8,3 +8,4 @@ fortune/preview/build/
 test/build/
 *.class
 algorithm/delaunay/build/
+test2/build/
