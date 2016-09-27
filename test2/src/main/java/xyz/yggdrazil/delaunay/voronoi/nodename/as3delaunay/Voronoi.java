@@ -210,7 +210,7 @@ public final class Voronoi {
 
     /*public ArrayList<LineSegment> delaunayTriangulation(keepOutMask:BitmapData = null)
      {
-     return delaunayLinesForEdges(selectNonIntersectingEdges(keepOutMask, _edges));
+     return delaunayLinesForEdges(selectNonIntersectingEdges(keepOutMask, edges));
      }*/
     public ArrayList<LineSegment> hull() {
         return delaunayLinesForEdges(hullEdges());
@@ -243,8 +243,8 @@ public final class Voronoi {
         }
 
         EdgeReorderer reorderer = new EdgeReorderer(hullEdges, Site.class);
-        hullEdges = reorderer.get_edges();
-        ArrayList<LR> orientations = reorderer.get_edgeOrientations();
+        hullEdges = reorderer.getEdges();
+        ArrayList<LR> orientations = reorderer.getEdgeOrientations();
         reorderer.dispose();
 
         LR orientation;

@@ -79,7 +79,7 @@ public final class Site implements ICoord {
     private int _siteIndex;
     // the edges that define this Site's Voronoi region:
     public ArrayList<Edge> _edges;
-    // which end of each edge hooks up with the previous edge in _edges:
+    // which end of each edge hooks up with the previous edge in edges:
     private ArrayList<LR> _edgeOrientations;
     // ordered list of points that define the region clipped to bounds:
     private ArrayList<Point> _region;
@@ -134,7 +134,7 @@ public final class Site implements ICoord {
     }
 
     public Edge nearestEdge() {
-        // _edges.sort(Edge.compareSitesDistances);
+        // edges.sort(Edge.compareSitesDistances);
         Collections.sort(_edges, new Comparator<Edge>() {
             @Override
             public int compare(Edge o1, Edge o2) {
@@ -183,11 +183,11 @@ public final class Site implements ICoord {
     }
 
     private void reorderEdges() {
-        //trace("_edges:", _edges);
+        //trace("edges:", edges);
         EdgeReorderer reorderer = new EdgeReorderer(_edges, Vertex.class);
-        _edges = reorderer.get_edges();
-        //trace("reordered:", _edges);
-        _edgeOrientations = reorderer.get_edgeOrientations();
+        _edges = reorderer.getEdges();
+        //trace("reordered:", edges);
+        _edgeOrientations = reorderer.getEdgeOrientations();
         reorderer.dispose();
     }
 
