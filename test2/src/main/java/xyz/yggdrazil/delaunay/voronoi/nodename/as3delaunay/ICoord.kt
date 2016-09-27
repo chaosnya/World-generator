@@ -4,5 +4,5 @@ import xyz.yggdrazil.delaunay.geom.Point
 
 interface ICoord {
 
-    val _coord: Point
+    val coord: Point
 }

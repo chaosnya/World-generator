@@ -22,18 +22,18 @@ final public class Vertex implements ICoord {
         }
     }
 
-    private static int _nvertices = 0;
-    private Point _coord;
+    private static int nvertices = 0;
+    private Point coord;
 
     @Override
-    public Point get_coord() {
-        return _coord;
+    public Point getCoord() {
+        return coord;
     }
 
-    private int _vertexIndex;
+    private int vertexIndex;
 
-    public int get_vertexIndex() {
-        return _vertexIndex;
+    public int getVertexIndex() {
+        return vertexIndex;
     }
 
     public Vertex(double x, double y) {
@@ -41,22 +41,22 @@ final public class Vertex implements ICoord {
     }
 
     private Vertex init(double x, double y) {
-        _coord = new Point(x, y);
+        coord = new Point(x, y);
         return this;
     }
 
     public void dispose() {
-        _coord = null;
+        coord = null;
         _pool.push(this);
     }
 
     public void setIndex() {
-        _vertexIndex = _nvertices++;
+        vertexIndex = nvertices++;
     }
 
     @Override
     public String toString() {
-        return "Vertex (" + _vertexIndex + ")";
+        return "Vertex (" + vertexIndex + ")";
     }
 
     /**
@@ -77,27 +77,27 @@ final public class Vertex implements ICoord {
         if (edge0 == null || edge1 == null) {
             return null;
         }
-        if (edge0.get_rightSite() == edge1.get_rightSite()) {
+        if (edge0.getRightSite() == edge1.getRightSite()) {
             return null;
         }
 
-        determinant = edge0.a * edge1.b - edge0.b * edge1.a;
+        determinant = edge0.getA() * edge1.getB() - edge0.getB() * edge1.getA();
         if (-1.0e-10 < determinant && determinant < 1.0e-10) {
             // the edges are parallel
             return null;
         }
 
-        intersectionX = (edge0.c * edge1.b - edge1.c * edge0.b) / determinant;
-        intersectionY = (edge1.c * edge0.a - edge0.c * edge1.a) / determinant;
+        intersectionX = (edge0.getC() * edge1.getB() - edge1.getC() * edge0.getB()) / determinant;
+        intersectionY = (edge1.getC() * edge0.getA() - edge0.getC() * edge1.getA()) / determinant;
 
-        if (Voronoi.compareByYThenX(edge0.get_rightSite(), edge1.get_rightSite()) < 0) {
+        if (Voronoi.compareByYThenX(edge0.getRightSite(), edge1.getRightSite()) < 0) {
             halfedge = halfedge0;
             edge = edge0;
         } else {
             halfedge = halfedge1;
             edge = edge1;
         }
-        rightOfSite = intersectionX >= edge.get_rightSite().get_x();
+        rightOfSite = intersectionX >= edge.getRightSite().get_x();
         if ((rightOfSite && halfedge.leftRight == LR.LEFT)
                 || (!rightOfSite && halfedge.leftRight == LR.RIGHT)) {
             return null;
@@ -107,10 +107,10 @@ final public class Vertex implements ICoord {
     }
 
     public double get_x() {
-        return _coord.getX();
+        return coord.getX();
     }
 
     public double get_y() {
-        return _coord.getY();
+        return coord.getY();
     }
 }

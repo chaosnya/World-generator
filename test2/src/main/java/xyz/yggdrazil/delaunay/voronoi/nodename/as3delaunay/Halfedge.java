@@ -75,7 +75,7 @@ public final class Halfedge {
         boolean rightOfSite, above, fast;
         double dxp, dyp, dxs, t1, t2, t3, yl;
 
-        topSite = edge.get_rightSite();
+        topSite = edge.getRightSite();
         rightOfSite = p.getX() > topSite.get_x();
         if (rightOfSite && this.leftRight == LR.LEFT) {
             return true;
@@ -84,16 +84,16 @@ public final class Halfedge {
             return false;
         }
 
-        if (edge.a == 1.0) {
+        if (edge.getA() == 1.0) {
             dyp = p.getY() - topSite.get_y();
             dxp = p.getX() - topSite.get_x();
             fast = false;
-            if ((!rightOfSite && edge.b < 0.0) || (rightOfSite && edge.b >= 0.0)) {
-                above = dyp >= edge.b * dxp;
+            if ((!rightOfSite && edge.getB() < 0.0) || (rightOfSite && edge.getB() >= 0.0)) {
+                above = dyp >= edge.getB() * dxp;
                 fast = above;
             } else {
-                above = p.getX() + p.getY() * edge.b > edge.c;
-                if (edge.b < 0.0) {
+                above = p.getX() + p.getY() * edge.getB() > edge.getC();
+                if (edge.getB() < 0.0) {
                     above = !above;
                 }
                 if (!above) {
@@ -101,15 +101,15 @@ public final class Halfedge {
                 }
             }
             if (!fast) {
-                dxs = topSite.get_x() - edge.get_leftSite().get_x();
-                above = edge.b * (dxp * dxp - dyp * dyp)
-                        < dxs * dyp * (1.0 + 2.0 * dxp / dxs + edge.b * edge.b);
-                if (edge.b < 0.0) {
+                dxs = topSite.get_x() - edge.getLeftSite().get_x();
+                above = edge.getB() * (dxp * dxp - dyp * dyp)
+                        < dxs * dyp * (1.0 + 2.0 * dxp / dxs + edge.getB() * edge.getB());
+                if (edge.getB() < 0.0) {
                     above = !above;
                 }
             }
         } else /* edge.b == 1.0 */ {
-            yl = edge.c - edge.a * p.getX();
+            yl = edge.getC() - edge.getA() * p.getX();
             t1 = p.getY() - yl;
             t2 = p.getX() - topSite.get_x();
             t3 = yl - topSite.get_y();

@@ -87,7 +87,7 @@ public final class SiteList implements IDisposable {
     public ArrayList<Point> siteCoords() {
         ArrayList<Point> coords = new ArrayList();
         for (Site site : _sites) {
-            coords.add(site.get_coord());
+            coords.add(site.getCoord());
         }
         return coords;
     }

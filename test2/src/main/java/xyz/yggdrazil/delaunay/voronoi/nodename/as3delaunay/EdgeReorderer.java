@@ -47,8 +47,8 @@ public final class EdgeReorderer {
         edge = origEdges.get(i);
         newEdges.add(edge);
         _edgeOrientations.add(LR.LEFT);
-        ICoord firstPoint = (criterion == Vertex.class) ? edge.get_leftVertex() : edge.get_leftSite();
-        ICoord lastPoint = (criterion == Vertex.class) ? edge.get_rightVertex() : edge.get_rightSite();
+        ICoord firstPoint = (criterion == Vertex.class) ? edge.getLeftVertex() : edge.getLeftSite();
+        ICoord lastPoint = (criterion == Vertex.class) ? edge.getRightVertex() : edge.getRightSite();
 
         if (firstPoint == Vertex.VERTEX_AT_INFINITY || lastPoint == Vertex.VERTEX_AT_INFINITY) {
             return new ArrayList();
@@ -63,8 +63,8 @@ public final class EdgeReorderer {
                     continue;
                 }
                 edge = origEdges.get(i);
-                ICoord leftPoint = (criterion == Vertex.class) ? edge.get_leftVertex() : edge.get_leftSite();
-                ICoord rightPoint = (criterion == Vertex.class) ? edge.get_rightVertex() : edge.get_rightSite();
+                ICoord leftPoint = (criterion == Vertex.class) ? edge.getLeftVertex() : edge.getLeftSite();
+                ICoord rightPoint = (criterion == Vertex.class) ? edge.getRightVertex() : edge.getRightSite();
                 if (leftPoint == Vertex.VERTEX_AT_INFINITY || rightPoint == Vertex.VERTEX_AT_INFINITY) {
                     return new ArrayList();
                 }

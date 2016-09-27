@@ -145,7 +145,7 @@ public final class Voronoi {
         }
         ArrayList<Site> sites = site.neighborSites();
         for (Site neighbor : sites) {
-            points.add(neighbor.get_coord());
+            points.add(neighbor.getCoord());
         }
         return points;
     }
@@ -158,8 +158,8 @@ public final class Voronoi {
         ArrayList<Edge> filtered = new ArrayList();
 
         for (Edge e : edgesToTest) {
-            if (((e.get_leftSite() != null && e.get_leftSite().get_coord() == coord)
-                    || (e.get_rightSite() != null && e.get_rightSite().get_coord() == coord))) {
+            if (((e.getLeftSite() != null && e.getLeftSite().getCoord() == coord)
+                    || (e.getRightSite() != null && e.getRightSite().getCoord() == coord))) {
                 filtered.add(e);
             }
         }
@@ -176,9 +176,9 @@ public final class Voronoi {
         ArrayList<LineSegment> segments = new ArrayList();
 
         for (Edge edge : edges) {
-            if (edge.get_visible()) {
-                Point p1 = edge.get_clippedEnds().get(LR.LEFT);
-                Point p2 = edge.get_clippedEnds().get(LR.RIGHT);
+            if (edge.getVisible()) {
+                Point p1 = edge.getClippedEnds().get(LR.LEFT);
+                Point p2 = edge.getClippedEnds().get(LR.RIGHT);
                 segments.add(new LineSegment(p1, p2));
             }
         }
@@ -253,7 +253,7 @@ public final class Voronoi {
         for (int i = 0; i < n; ++i) {
             Edge edge = hullEdges.get(i);
             orientation = orientations.get(i);
-            points.add(edge.site(orientation).get_coord());
+            points.add(edge.site(orientation).getCoord());
         }
         return points;
     }
@@ -297,7 +297,7 @@ public final class Voronoi {
                 //trace("smallest: new site " + newSite);
 
                 // Step 8:
-                lbnd = edgeList.edgeListLeftNeighbor(newSite.get_coord());    // the Halfedge just to the left of newSite
+                lbnd = edgeList.edgeListLeftNeighbor(newSite.getCoord());    // the Halfedge just to the left of newSite
                 //trace("lbnd: " + lbnd);
                 rbnd = lbnd.edgeListRightNeighbor;        // the Halfedge just to the right
                 //trace("rbnd: " + rbnd);
@@ -306,7 +306,7 @@ public final class Voronoi {
                 //trace("new Site is in region of existing site: " + bottomSite);
 
                 // Step 9:
-                edge = Edge.createBisectingEdge(bottomSite, newSite);
+                edge = Edge.Companion.createBisectingEdge(bottomSite, newSite);
                 //trace("new edge: " + edge);
                 _edges.add(edge);
 
@@ -367,7 +367,7 @@ public final class Voronoi {
                     topSite = tempSite;
                     leftRight = LR.RIGHT;
                 }
-                edge = Edge.createBisectingEdge(bottomSite, topSite);
+                edge = Edge.Companion.createBisectingEdge(bottomSite, topSite);
                 _edges.add(edge);
                 bisector = Halfedge.create(edge, leftRight);
                 halfEdges.add(bisector);

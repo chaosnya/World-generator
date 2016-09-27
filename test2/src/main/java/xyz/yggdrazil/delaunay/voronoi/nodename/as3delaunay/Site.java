@@ -70,7 +70,7 @@ public final class Site implements ICoord {
     private Point _coord;
 
     @Override
-    public Point get_coord() {
+    public Point getCoord() {
         return _coord;
     }
 
@@ -100,7 +100,7 @@ public final class Site implements ICoord {
 
     @Override
     public String toString() {
-        return "Site " + _siteIndex + ": " + get_coord();
+        return "Site " + _siteIndex + ": " + getCoord();
     }
 
     private void move(Point p) {
@@ -138,7 +138,7 @@ public final class Site implements ICoord {
         Collections.sort(_edges, new Comparator<Edge>() {
             @Override
             public int compare(Edge o1, Edge o2) {
-                return (int) Edge.compareSitesDistances(o1, o2);
+                return (int) Edge.Companion.compareSitesDistances(o1, o2);
             }
         });
         return _edges.get(0);
@@ -159,11 +159,11 @@ public final class Site implements ICoord {
     }
 
     private Site neighborSite(Edge edge) {
-        if (this == edge.get_leftSite()) {
-            return edge.get_rightSite();
+        if (this == edge.getLeftSite()) {
+            return edge.getRightSite();
         }
-        if (this == edge.get_rightSite()) {
-            return edge.get_leftSite();
+        if (this == edge.getRightSite()) {
+            return edge.getLeftSite();
         }
         return null;
     }
@@ -196,7 +196,7 @@ public final class Site implements ICoord {
         int n = _edges.size();
         int i = 0;
         Edge edge;
-        while (i < n && (!_edges.get(i).get_visible())) {
+        while (i < n && (!_edges.get(i).getVisible())) {
             ++i;
         }
 
@@ -206,12 +206,12 @@ public final class Site implements ICoord {
         }
         edge = _edges.get(i);
         LR orientation = _edgeOrientations.get(i);
-        points.add(edge.get_clippedEnds().get(orientation));
-        points.add(edge.get_clippedEnds().get((LR.other(orientation))));
+        points.add(edge.getClippedEnds().get(orientation));
+        points.add(edge.getClippedEnds().get((LR.other(orientation))));
 
         for (int j = i + 1; j < n; ++j) {
             edge = _edges.get(j);
-            if (!edge.get_visible()) {
+            if (!edge.getVisible()) {
                 continue;
             }
             connect(points, j, bounds, false);
@@ -227,7 +227,7 @@ public final class Site implements ICoord {
         Edge newEdge = _edges.get(j);
         LR newOrientation = _edgeOrientations.get(j);
         // the point that  must be connected to rightPoint:
-        Point newPoint = newEdge.get_clippedEnds().get(newOrientation);
+        Point newPoint = newEdge.getClippedEnds().get(newOrientation);
         if (!closeEnough(rightPoint, newPoint)) {
             // The points do not coincide, so they must have been clipped at the bounds;
             // see if they are on the same border of the bounds:
@@ -317,7 +317,7 @@ public final class Site implements ICoord {
             }
             points.add(newPoint);
         }
-        Point newRightPoint = newEdge.get_clippedEnds().get(LR.other(newOrientation));
+        Point newRightPoint = newEdge.getClippedEnds().get(LR.other(newOrientation));
         if (!closeEnough(points.get(0), newRightPoint)) {
             points.add(newRightPoint);
         }
@@ -332,7 +332,7 @@ public final class Site implements ICoord {
     }
 
     public double dist(ICoord p) {
-        return Point.Companion.distance(p.get_coord(), this._coord);
+        return Point.Companion.distance(p.getCoord(), this._coord);
     }
 }
 
