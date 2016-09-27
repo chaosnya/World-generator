@@ -84,8 +84,8 @@ public final class Voronoi {
     public Voronoi(ArrayList<Point> points, ArrayList<Color> colors) {
         double maxWidth = 0, maxHeight = 0;
         for (Point p : points) {
-            maxWidth = Math.max(maxWidth, p.x);
-            maxHeight = Math.max(maxHeight, p.y);
+            maxWidth = Math.max(maxWidth, p.getX());
+            maxHeight = Math.max(maxHeight, p.getY());
         }
         System.out.println(maxWidth + "," + maxHeight);
         init(points, colors, new Rectangle(0, 0, maxWidth, maxHeight));
@@ -278,8 +278,8 @@ public final class Voronoi {
         Rectangle dataBounds = _sites.getSitesBounds();
 
         int sqrt_nsites = (int) Math.sqrt(_sites.get_length() + 4);
-        HalfedgePriorityQueue heap = new HalfedgePriorityQueue(dataBounds.y, dataBounds.height, sqrt_nsites);
-        EdgeList edgeList = new EdgeList(dataBounds.x, dataBounds.width, sqrt_nsites);
+        HalfedgePriorityQueue heap = new HalfedgePriorityQueue(dataBounds.getY(), dataBounds.getHeight(), sqrt_nsites);
+        EdgeList edgeList = new EdgeList(dataBounds.getX(), dataBounds.getWidth(), sqrt_nsites);
         ArrayList<Halfedge> halfEdges = new ArrayList();
         ArrayList<Vertex> vertices = new ArrayList();
 
@@ -446,16 +446,16 @@ public final class Voronoi {
     }
 
     public static int compareByYThenX(Site s1, Point s2) {
-        if (s1.get_y() < s2.y) {
+        if (s1.get_y() < s2.getY()) {
             return -1;
         }
-        if (s1.get_y() > s2.y) {
+        if (s1.get_y() > s2.getY()) {
             return 1;
         }
-        if (s1.get_x() < s2.x) {
+        if (s1.get_x() < s2.getX()) {
             return -1;
         }
-        if (s1.get_x() > s2.x) {
+        if (s1.get_x() > s2.getX()) {
             return 1;
         }
         return 0;

@@ -107,10 +107,10 @@ final public class Vertex implements ICoord {
     }
 
     public double get_x() {
-        return _coord.x;
+        return _coord.getX();
     }
 
     public double get_y() {
-        return _coord.y;
+        return _coord.getY();
     }
 }

@@ -159,7 +159,7 @@ public final class Edge {
     }
 
     public double sitesDistance() {
-        return Point.distance(get_leftSite().get_coord(), get_rightSite().get_coord());
+        return Point.Companion.distance(get_leftSite().get_coord(), get_rightSite().get_coord());
     }
 
     public static double compareSitesDistances_MAX(Edge edge0, Edge edge1) {
@@ -258,10 +258,10 @@ public final class Edge {
      * @param bounds
      */
     public void clipVertices(Rectangle bounds) {
-        double xmin = bounds.x;
-        double ymin = bounds.y;
-        double xmax = bounds.right;
-        double ymax = bounds.bottom;
+        double xmin = bounds.getX();
+        double ymin = bounds.getY();
+        double xmax = bounds.getRight();
+        double ymax = bounds.getBottom();
 
         Vertex vertex0, vertex1;
         double x0, x1, y0, y1;

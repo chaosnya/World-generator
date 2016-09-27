@@ -38,13 +38,13 @@ public abstract class VoronoiGraph {
                 double x = 0;
                 double y = 0;
                 for (Point c : region) {
-                    x += c.x;
-                    y += c.y;
+                    x += c.getX();
+                    y += c.getY();
                 }
                 x /= region.size();
                 y /= region.size();
-                p.x = x;
-                p.y = y;
+                p.setX(x);
+                p.setY(y);
             }
             v = new Voronoi(points, null, v.get_plotBounds());
         }
@@ -64,7 +64,7 @@ public abstract class VoronoiGraph {
         assignPolygonMoisture();
         assignBiomes();
 
-        pixelCenterMap = new BufferedImage((int) bounds.width, (int) bounds.width, BufferedImage.TYPE_4BYTE_ABGR);
+        pixelCenterMap = new BufferedImage((int) bounds.getWidth(), (int) bounds.getWidth(), BufferedImage.TYPE_4BYTE_ABGR);
     }
 
     abstract protected Enum getBiome(Center p);
@@ -80,8 +80,8 @@ public abstract class VoronoiGraph {
                 double x = 0;
                 double y = 0;
                 for (Center center : c.touches) {
-                    x += center.loc.x;
-                    y += center.loc.y;
+                    x += center.loc.getX();
+                    y += center.loc.getY();
                 }
                 newP[c.index] = new Point(x / c.touches.size(), y / c.touches.size());
             }
@@ -106,12 +106,12 @@ public abstract class VoronoiGraph {
     private void drawTriangle(Graphics2D g, Corner c1, Corner c2, Center center) {
         int[] x = new int[3];
         int[] y = new int[3];
-        x[0] = (int) center.loc.x;
-        y[0] = (int) center.loc.y;
-        x[1] = (int) c1.loc.x;
-        y[1] = (int) c1.loc.y;
-        x[2] = (int) c2.loc.x;
-        y[2] = (int) c2.loc.y;
+        x[0] = (int) center.loc.getX();
+        y[0] = (int) center.loc.getY();
+        x[1] = (int) c1.loc.getX();
+        y[1] = (int) c1.loc.getY();
+        x[2] = (int) c2.loc.getX();
+        y[2] = (int) c2.loc.getY();
         g.fillPolygon(x, y, 3);
     }
 
@@ -120,7 +120,7 @@ public abstract class VoronoiGraph {
     }
 
     public BufferedImage createMap() {
-        int size = (int) bounds.width;
+        int size = (int) bounds.getWidth();
 
         final BufferedImage img = new BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g = img.createGraphics();
@@ -164,9 +164,9 @@ public abstract class VoronoiGraph {
             }
 
             drawTriangle(g, e.v0, e.v1, c);
-            c.area += Math.abs(c.loc.x * (e.v0.loc.y - e.v1.loc.y)
-                    + e.v0.loc.x * (e.v1.loc.y - c.loc.y)
-                    + e.v1.loc.x * (c.loc.y - e.v0.loc.y)) / 2;
+            c.area += Math.abs(c.loc.getX() * (e.v0.loc.getY() - e.v1.loc.getY())
+                    + e.v0.loc.getX() * (e.v1.loc.getY() - c.loc.getY())
+                    + e.v1.loc.getX() * (c.loc.getY() - e.v0.loc.getY())) / 2;
         }
 
         //handle the missing triangle
@@ -179,22 +179,22 @@ public abstract class VoronoiGraph {
             //with a more useful number of sites. 
             //TODO: find a way to fix this
 
-            if (closeEnough(edgeCorner1.loc.x, edgeCorner2.loc.x, 1)) {
+            if (closeEnough(edgeCorner1.loc.getX(), edgeCorner2.loc.getX(), 1)) {
                 drawTriangle(g, edgeCorner1, edgeCorner2, c);
             } else {
                 int[] x = new int[4];
                 int[] y = new int[4];
-                x[0] = (int) c.loc.x;
-                y[0] = (int) c.loc.y;
-                x[1] = (int) edgeCorner1.loc.x;
-                y[1] = (int) edgeCorner1.loc.y;
+                x[0] = (int) c.loc.getX();
+                y[0] = (int) c.loc.getY();
+                x[1] = (int) edgeCorner1.loc.getX();
+                y[1] = (int) edgeCorner1.loc.getY();
 
                 //determine which corner this is
-                x[2] = (int) ((closeEnough(edgeCorner1.loc.x, bounds.x, 1) || closeEnough(edgeCorner2.loc.x, bounds.x, .5)) ? bounds.x : bounds.right);
-                y[2] = (int) ((closeEnough(edgeCorner1.loc.y, bounds.y, 1) || closeEnough(edgeCorner2.loc.y, bounds.y, .5)) ? bounds.y : bounds.bottom);
+                x[2] = (int) ((closeEnough(edgeCorner1.loc.getX(), bounds.getX(), 1) || closeEnough(edgeCorner2.loc.getX(), bounds.getX(), .5)) ? bounds.getX() : bounds.getRight());
+                y[2] = (int) ((closeEnough(edgeCorner1.loc.getY(), bounds.getY(), 1) || closeEnough(edgeCorner2.loc.getY(), bounds.getY(), .5)) ? bounds.getY() : bounds.getBottom());
 
-                x[3] = (int) edgeCorner2.loc.x;
-                y[3] = (int) edgeCorner2.loc.y;
+                x[3] = (int) edgeCorner2.loc.getX();
+                y[3] = (int) edgeCorner2.loc.getY();
 
                 g.fillPolygon(x, y, 4);
                 c.area += 0; //TODO: area of polygon given vertices
@@ -226,30 +226,30 @@ public abstract class VoronoiGraph {
             if (drawDelaunay) {
                 g.setStroke(new BasicStroke(1));
                 g.setColor(Color.YELLOW);
-                g.drawLine((int) e.d0.loc.x, (int) e.d0.loc.y, (int) e.d1.loc.x, (int) e.d1.loc.y);
+                g.drawLine((int) e.d0.loc.getX(), (int) e.d0.loc.getY(), (int) e.d1.loc.getX(), (int) e.d1.loc.getY());
             }
             if (drawRivers && e.river > 0) {
                 g.setStroke(new BasicStroke(1 + (int) Math.sqrt(e.river * 2)));
                 g.setColor(RIVER);
-                g.drawLine((int) e.v0.loc.x, (int) e.v0.loc.y, (int) e.v1.loc.x, (int) e.v1.loc.y);
+                g.drawLine((int) e.v0.loc.getX(), (int) e.v0.loc.getY(), (int) e.v1.loc.getX(), (int) e.v1.loc.getY());
             }
         }
 
         if (drawSites) {
             g.setColor(Color.BLACK);
             centers.stream().forEach((s) -> {
-                g.fillOval((int) (s.loc.x - 2), (int) (s.loc.y - 2), 4, 4);
+                g.fillOval((int) (s.loc.getX() - 2), (int) (s.loc.getY() - 2), 4, 4);
             });
         }
 
         if (drawCorners) {
             g.setColor(Color.WHITE);
             corners.stream().forEach((c) -> {
-                g.fillOval((int) (c.loc.x - 2), (int) (c.loc.y - 2), 4, 4);
+                g.fillOval((int) (c.loc.getX() - 2), (int) (c.loc.getY() - 2), 4, 4);
             });
         }
         g.setColor(Color.WHITE);
-        g.drawRect((int) bounds.x, (int) bounds.y, (int) bounds.width, (int) bounds.height);
+        g.drawRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
     }
 
     private void buildGraph(Voronoi v) {
@@ -351,7 +351,7 @@ public abstract class VoronoiGraph {
         if (p == null) {
             return null;
         }
-        int index = (int) ((int) p.x + (int) (p.y) * bounds.width * 2);
+        int index = (int) ((int) p.getX() + (int) (p.getY()) * bounds.getWidth() * 2);
         Corner c = pointCornerMap.get(index);
         if (c == null) {
             c = new Corner();
@@ -401,10 +401,10 @@ public abstract class VoronoiGraph {
     //only the radial implementation of amitp's map generation
     //TODO implement more island shapes
     private boolean isWater(Point p) {
-        p = new Point(2 * (p.x / bounds.width - 0.5), 2 * (p.y / bounds.height - 0.5));
+        p = new Point(2 * (p.getX() / bounds.getWidth() - 0.5), 2 * (p.getY() / bounds.getHeight() - 0.5));
 
-        double angle = Math.atan2(p.y, p.x);
-        double length = 0.5 * (Math.max(Math.abs(p.x), Math.abs(p.y)) + p.length());
+        double angle = Math.atan2(p.getY(), p.getX());
+        double length = 0.5 * (Math.max(Math.abs(p.getX()), Math.abs(p.getY())) + p.length());
 
         double r1 = 0.5 + 0.40 * Math.sin(startAngle + bumps * angle + Math.cos((bumps + 3) * angle));
         double r2 = 0.7 - 0.20 * Math.sin(startAngle + bumps * angle - Math.sin((bumps + 2) * angle));
@@ -541,7 +541,7 @@ public abstract class VoronoiGraph {
     }
 
     private void createRivers() {
-        for (int i = 0; i < bounds.width / 2; i++) {
+        for (int i = 0; i < bounds.getWidth() / 2; i++) {
             Corner c = corners.get(r.nextInt(corners.size()));
             if (c.ocean || c.elevation < 0.3 || c.elevation > 0.9) {
                 continue;

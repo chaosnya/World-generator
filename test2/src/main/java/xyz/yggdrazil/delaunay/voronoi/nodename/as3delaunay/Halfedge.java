@@ -76,7 +76,7 @@ public final class Halfedge {
         double dxp, dyp, dxs, t1, t2, t3, yl;
 
         topSite = edge.get_rightSite();
-        rightOfSite = p.x > topSite.get_x();
+        rightOfSite = p.getX() > topSite.get_x();
         if (rightOfSite && this.leftRight == LR.LEFT) {
             return true;
         }
@@ -85,14 +85,14 @@ public final class Halfedge {
         }
 
         if (edge.a == 1.0) {
-            dyp = p.y - topSite.get_y();
-            dxp = p.x - topSite.get_x();
+            dyp = p.getY() - topSite.get_y();
+            dxp = p.getX() - topSite.get_x();
             fast = false;
             if ((!rightOfSite && edge.b < 0.0) || (rightOfSite && edge.b >= 0.0)) {
                 above = dyp >= edge.b * dxp;
                 fast = above;
             } else {
-                above = p.x + p.y * edge.b > edge.c;
+                above = p.getX() + p.getY() * edge.b > edge.c;
                 if (edge.b < 0.0) {
                     above = !above;
                 }
@@ -109,9 +109,9 @@ public final class Halfedge {
                 }
             }
         } else /* edge.b == 1.0 */ {
-            yl = edge.c - edge.a * p.x;
-            t1 = p.y - yl;
-            t2 = p.x - topSite.get_x();
+            yl = edge.c - edge.a * p.getX();
+            t1 = p.getY() - yl;
+            t2 = p.getX() - topSite.get_x();
             t3 = yl - topSite.get_y();
             above = t1 * t1 > t2 * t2 + t3 * t3;
         }

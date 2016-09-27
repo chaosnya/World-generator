@@ -36,7 +36,7 @@ public final class Polygon {
             nextIndex = (index + 1) % n;
             point = _vertices.get(index);
             next = _vertices.get(nextIndex);
-            signedDoubleArea += point.x * next.y - next.x * point.y;
+            signedDoubleArea += point.getX() * next.getY() - next.getX() * point.getY();
         }
         return signedDoubleArea;
     }

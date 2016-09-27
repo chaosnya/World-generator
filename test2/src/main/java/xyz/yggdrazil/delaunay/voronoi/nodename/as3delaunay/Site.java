@@ -64,7 +64,7 @@ public final class Site implements ICoord {
     final private static double EPSILON = .005;
 
     private static boolean closeEnough(Point p0, Point p1) {
-        return Point.distance(p0, p1) < EPSILON;
+        return Point.Companion.distance(p0, p1) < EPSILON;
     }
 
     private Point _coord;
@@ -231,8 +231,8 @@ public final class Site implements ICoord {
         if (!closeEnough(rightPoint, newPoint)) {
             // The points do not coincide, so they must have been clipped at the bounds;
             // see if they are on the same border of the bounds:
-            if (rightPoint.x != newPoint.x
-                    && rightPoint.y != newPoint.y) {
+            if (rightPoint.getX() != newPoint.getX()
+                    && rightPoint.getY() != newPoint.getY()) {
                 // They are on different borders of the bounds;
                 // insert one or two corners of bounds as needed to hook them up:
                 // (NOTE this will not be correct if the region should take up more than
@@ -242,72 +242,72 @@ public final class Site implements ICoord {
                 int newCheck = BoundsCheck.check(newPoint, bounds);
                 double px, py;
                 if ((rightCheck & BoundsCheck.RIGHT) != 0) {
-                    px = bounds.right;
+                    px = bounds.getRight();
                     if ((newCheck & BoundsCheck.BOTTOM) != 0) {
-                        py = bounds.bottom;
+                        py = bounds.getBottom();
                         points.add(new Point(px, py));
                     } else if ((newCheck & BoundsCheck.TOP) != 0) {
-                        py = bounds.top;
+                        py = bounds.getTop();
                         points.add(new Point(px, py));
                     } else if ((newCheck & BoundsCheck.LEFT) != 0) {
-                        if (rightPoint.y - bounds.y + newPoint.y - bounds.y < bounds.height) {
-                            py = bounds.top;
+                        if (rightPoint.getY() - bounds.getY() + newPoint.getY() - bounds.getY() < bounds.getHeight()) {
+                            py = bounds.getTop();
                         } else {
-                            py = bounds.bottom;
+                            py = bounds.getBottom();
                         }
                         points.add(new Point(px, py));
-                        points.add(new Point(bounds.left, py));
+                        points.add(new Point(bounds.getLeft(), py));
                     }
                 } else if ((rightCheck & BoundsCheck.LEFT) != 0) {
-                    px = bounds.left;
+                    px = bounds.getLeft();
                     if ((newCheck & BoundsCheck.BOTTOM) != 0) {
-                        py = bounds.bottom;
+                        py = bounds.getBottom();
                         points.add(new Point(px, py));
                     } else if ((newCheck & BoundsCheck.TOP) != 0) {
-                        py = bounds.top;
+                        py = bounds.getTop();
                         points.add(new Point(px, py));
                     } else if ((newCheck & BoundsCheck.RIGHT) != 0) {
-                        if (rightPoint.y - bounds.y + newPoint.y - bounds.y < bounds.height) {
-                            py = bounds.top;
+                        if (rightPoint.getY() - bounds.getY() + newPoint.getY() - bounds.getY() < bounds.getHeight()) {
+                            py = bounds.getTop();
                         } else {
-                            py = bounds.bottom;
+                            py = bounds.getBottom();
                         }
                         points.add(new Point(px, py));
-                        points.add(new Point(bounds.right, py));
+                        points.add(new Point(bounds.getRight(), py));
                     }
                 } else if ((rightCheck & BoundsCheck.TOP) != 0) {
-                    py = bounds.top;
+                    py = bounds.getTop();
                     if ((newCheck & BoundsCheck.RIGHT) != 0) {
-                        px = bounds.right;
+                        px = bounds.getRight();
                         points.add(new Point(px, py));
                     } else if ((newCheck & BoundsCheck.LEFT) != 0) {
-                        px = bounds.left;
+                        px = bounds.getLeft();
                         points.add(new Point(px, py));
                     } else if ((newCheck & BoundsCheck.BOTTOM) != 0) {
-                        if (rightPoint.x - bounds.x + newPoint.x - bounds.x < bounds.width) {
-                            px = bounds.left;
+                        if (rightPoint.getX() - bounds.getX() + newPoint.getX() - bounds.getX() < bounds.getWidth()) {
+                            px = bounds.getLeft();
                         } else {
-                            px = bounds.right;
+                            px = bounds.getRight();
                         }
                         points.add(new Point(px, py));
-                        points.add(new Point(px, bounds.bottom));
+                        points.add(new Point(px, bounds.getBottom()));
                     }
                 } else if ((rightCheck & BoundsCheck.BOTTOM) != 0) {
-                    py = bounds.bottom;
+                    py = bounds.getBottom();
                     if ((newCheck & BoundsCheck.RIGHT) != 0) {
-                        px = bounds.right;
+                        px = bounds.getRight();
                         points.add(new Point(px, py));
                     } else if ((newCheck & BoundsCheck.LEFT) != 0) {
-                        px = bounds.left;
+                        px = bounds.getLeft();
                         points.add(new Point(px, py));
                     } else if ((newCheck & BoundsCheck.TOP) != 0) {
-                        if (rightPoint.x - bounds.x + newPoint.x - bounds.x < bounds.width) {
-                            px = bounds.left;
+                        if (rightPoint.getX() - bounds.getX() + newPoint.getX() - bounds.getX() < bounds.getWidth()) {
+                            px = bounds.getLeft();
                         } else {
-                            px = bounds.right;
+                            px = bounds.getRight();
                         }
                         points.add(new Point(px, py));
-                        points.add(new Point(px, bounds.top));
+                        points.add(new Point(px, bounds.getTop()));
                     }
                 }
             }
@@ -324,15 +324,15 @@ public final class Site implements ICoord {
     }
 
     public double get_x() {
-        return _coord.x;
+        return _coord.getX();
     }
 
     public double get_y() {
-        return _coord.y;
+        return _coord.getY();
     }
 
     public double dist(ICoord p) {
-        return Point.distance(p.get_coord(), this._coord);
+        return Point.Companion.distance(p.get_coord(), this._coord);
     }
 }
 
@@ -351,22 +351,19 @@ final class BoundsCheck {
      */
     public static int check(Point point, Rectangle bounds) {
         int value = 0;
-        if (point.x == bounds.left) {
+        if (point.getX() == bounds.getLeft()) {
             value |= LEFT;
         }
-        if (point.x == bounds.right) {
+        if (point.getX() == bounds.getRight()) {
             value |= RIGHT;
         }
-        if (point.y == bounds.top) {
+        if (point.getY() == bounds.getTop()) {
             value |= TOP;
         }
-        if (point.y == bounds.bottom) {
+        if (point.getY() == bounds.getBottom()) {
             value |= BOTTOM;
         }
         return value;
     }
 
-    public BoundsCheck() {
-        throw new Error("BoundsCheck constructor unused");
-    }
 }

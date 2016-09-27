@@ -90,7 +90,7 @@ public final class EdgeList implements IDisposable {
         Halfedge halfEdge;
 
         /* Use hash table to get close to desired halfedge */
-        bucket = (int) ((p.x - _xmin) / _deltax * _hashsize);
+        bucket = (int) ((p.getX() - _xmin) / _deltax * _hashsize);
         if (bucket < 0) {
             bucket = 0;
         }

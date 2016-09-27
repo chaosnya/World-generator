@@ -5,8 +5,8 @@ import xyz.yggdrazil.delaunay.geom.Point;
 public final class LineSegment {
 
     public static double compareLengths_MAX(LineSegment segment0, LineSegment segment1) {
-        double length0 = Point.distance(segment0.p0, segment0.p1);
-        double length1 = Point.distance(segment1.p0, segment1.p1);
+        double length0 = Point.Companion.distance(segment0.p0, segment0.p1);
+        double length1 = Point.Companion.distance(segment1.p0, segment1.p1);
         if (length0 < length1) {
             return 1;
         }
