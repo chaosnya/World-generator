@@ -27,10 +27,10 @@ class VoronoiDiagram(private val config: Config) : Diagram<Site>() {
     companion object {
         private val initialSize = 10000     // Size of initial triangle
     }
-    
+
     fun addRandomPoints() {
 
-        for (i in 1..100) {
+        for (i in 1..10000) {
             val point = viewport.randomPointInside()
             siteMatrix.add(point)
         }
@@ -40,7 +40,7 @@ class VoronoiDiagram(private val config: Config) : Diagram<Site>() {
 
     fun removeRandomPoint() {
 
-        for (i in 1..100) {
+        for (i in 1..10000) {
             val index = random.nextInt(siteMatrix.count())
             siteMatrix.remove(siteMatrix[index])
         }

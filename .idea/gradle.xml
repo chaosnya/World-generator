@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/algorithm/delaunay" />
             <option value="$PROJECT_DIR$/algorithm/preview-delaunay" />
             <option value="$PROJECT_DIR$/test" />
+            <option value="$PROJECT_DIR$/test2" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />
