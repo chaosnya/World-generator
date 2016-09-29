@@ -108,7 +108,7 @@ class Edge private constructor() {
     }
 
     override fun toString(): String {
-        return "Edge ${edgeIndex}; sites ${sites!![LR.LEFT]}, ${sites!![LR.RIGHT]}; endVertices ${(if (leftVertex != null) leftVertex!!.vertexIndex else "null")}, ${(if (rightVertex != null) rightVertex!!.vertexIndex else "null")}::"
+        return "Edge ${edgeIndex}; sites ${sites!![LR.LEFT]}, ${sites!![LR.RIGHT]}; endVertices ${leftVertex?.vertexIndex}, ${rightVertex?.vertexIndex}::"
     }
 
     /**

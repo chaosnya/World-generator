@@ -8,6 +8,13 @@ final public class Vertex implements ICoord {
 
     final public static Vertex VERTEX_AT_INFINITY = new Vertex(Double.NaN, Double.NaN);
     final private static Stack<Vertex> _pool = new Stack();
+    private static int nvertices = 0;
+    private Point coord;
+    private int vertexIndex;
+
+    public Vertex(double x, double y) {
+        init(x, y);
+    }
 
     private static Vertex create(double x, double y) {
 
@@ -20,43 +27,6 @@ final public class Vertex implements ICoord {
         } else {
             return new Vertex(x, y);
         }
-    }
-
-    private static int nvertices = 0;
-    private Point coord;
-
-    @Override
-    public Point getCoord() {
-        return coord;
-    }
-
-    private int vertexIndex;
-
-    public int getVertexIndex() {
-        return vertexIndex;
-    }
-
-    public Vertex(double x, double y) {
-        init(x, y);
-    }
-
-    private Vertex init(double x, double y) {
-        coord = new Point(x, y);
-        return this;
-    }
-
-    public void dispose() {
-        coord = null;
-        _pool.push(this);
-    }
-
-    public void setIndex() {
-        vertexIndex = nvertices++;
-    }
-
-    @Override
-    public String toString() {
-        return "Vertex (" + vertexIndex + ")";
     }
 
     /**
@@ -98,12 +68,40 @@ final public class Vertex implements ICoord {
             edge = edge1;
         }
         rightOfSite = intersectionX >= edge.getRightSite().get_x();
-        if ((rightOfSite && halfedge.getLeftRight() == LR.LEFT)
-                || (!rightOfSite && halfedge.getLeftRight() == LR.RIGHT)) {
+        if ((rightOfSite && halfedge.getLeftRight() == LR.Companion.getLEFT())
+                || (!rightOfSite && halfedge.getLeftRight() == LR.Companion.getRIGHT())) {
             return null;
         }
 
         return Vertex.create(intersectionX, intersectionY);
+    }
+
+    @Override
+    public Point getCoord() {
+        return coord;
+    }
+
+    public int getVertexIndex() {
+        return vertexIndex;
+    }
+
+    private Vertex init(double x, double y) {
+        coord = new Point(x, y);
+        return this;
+    }
+
+    public void dispose() {
+        coord = null;
+        _pool.push(this);
+    }
+
+    public void setIndex() {
+        vertexIndex = nvertices++;
+    }
+
+    @Override
+    public String toString() {
+        return "Vertex (" + vertexIndex + ")";
     }
 
     public double get_x() {

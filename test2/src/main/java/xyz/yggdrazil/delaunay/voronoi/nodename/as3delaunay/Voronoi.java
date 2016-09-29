@@ -177,8 +177,8 @@ public final class Voronoi {
 
         for (Edge edge : edges) {
             if (edge.getVisible()) {
-                Point p1 = edge.getClippedEnds().get(LR.LEFT);
-                Point p2 = edge.getClippedEnds().get(LR.RIGHT);
+                Point p1 = edge.getClippedEnds().get(LR.Companion.getLEFT());
+                Point p2 = edge.getClippedEnds().get(LR.Companion.getRIGHT());
                 segments.add(new LineSegment(p1, p2));
             }
         }
@@ -310,7 +310,7 @@ public final class Voronoi {
                 //trace("new edge: " + edge);
                 _edges.add(edge);
 
-                bisector = Halfedge.Companion.create(edge, LR.LEFT);
+                bisector = Halfedge.Companion.create(edge, LR.Companion.getLEFT());
                 halfEdges.add(bisector);
                 // inserting two Halfedges into edgeList constitutes Step 10:
                 // insert bisector to the right of lbnd:
@@ -326,7 +326,7 @@ public final class Voronoi {
                 }
 
                 lbnd = bisector;
-                bisector = Halfedge.Companion.create(edge, LR.RIGHT);
+                bisector = Halfedge.Companion.create(edge, LR.Companion.getRIGHT());
                 halfEdges.add(bisector);
                 // second Halfedge for Step 10:
                 // insert bisector to the right of lbnd:
@@ -360,19 +360,19 @@ public final class Voronoi {
                 edgeList.remove(lbnd);
                 heap.remove(rbnd);
                 edgeList.remove(rbnd);
-                leftRight = LR.LEFT;
+                leftRight = LR.Companion.getLEFT();
                 if (bottomSite.get_y() > topSite.get_y()) {
                     tempSite = bottomSite;
                     bottomSite = topSite;
                     topSite = tempSite;
-                    leftRight = LR.RIGHT;
+                    leftRight = LR.Companion.getRIGHT();
                 }
                 edge = Edge.Companion.createBisectingEdge(bottomSite, topSite);
                 _edges.add(edge);
                 bisector = Halfedge.Companion.create(edge, leftRight);
                 halfEdges.add(bisector);
                 edgeList.insert(llbnd, bisector);
-                edge.setVertex(LR.other(leftRight), v);
+                edge.setVertex(LR.Companion.other(leftRight), v);
                 if ((vertex = Vertex.intersect(llbnd, bisector)) != null) {
                     vertices.add(vertex);
                     heap.remove(llbnd);
@@ -426,7 +426,7 @@ public final class Voronoi {
         if (edge == null) {
             return bottomMostSite;
         }
-        return edge.site(LR.other(he.getLeftRight()));
+        return edge.site(LR.Companion.other(he.getLeftRight()));
     }
 
     public static int compareByYThenX(Site s1, Site s2) {

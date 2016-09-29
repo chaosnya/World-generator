@@ -11,7 +11,22 @@ import java.util.Stack;
 
 public final class Site implements ICoord {
 
+    final private static double EPSILON = .005;
     private static Stack<Site> _pool = new Stack();
+    public Color color;
+    public double weight;
+    // the edges that define this Site's Voronoi region:
+    public ArrayList<Edge> edges;
+    private Point coord;
+    private int _siteIndex;
+    // which end of each edge hooks up with the previous edge in edges:
+    private ArrayList<LR> _edgeOrientations;
+    // ordered list of points that define the region clipped to bounds:
+    private ArrayList<Point> _region;
+
+    public Site(Point p, int index, double weight, Color color) {
+        init(p, index, weight, color);
+    }
 
     public static Site create(Point p, int index, double weight, Color color) {
         if (_pool.size() > 0) {
@@ -61,39 +76,21 @@ public final class Site implements ICoord {
         return returnValue;
     }
 
-    final private static double EPSILON = .005;
-
     private static boolean closeEnough(Point p0, Point p1) {
         return Point.Companion.distance(p0, p1) < EPSILON;
     }
 
-    private Point _coord;
-
     @Override
     public Point getCoord() {
-        return _coord;
-    }
-
-    public Color color;
-    public double weight;
-    private int _siteIndex;
-    // the edges that define this Site's Voronoi region:
-    public ArrayList<Edge> _edges;
-    // which end of each edge hooks up with the previous edge in edges:
-    private ArrayList<LR> _edgeOrientations;
-    // ordered list of points that define the region clipped to bounds:
-    private ArrayList<Point> _region;
-
-    public Site(Point p, int index, double weight, Color color) {
-        init(p, index, weight, color);
+        return coord;
     }
 
     private Site init(Point p, int index, double weight, Color color) {
-        _coord = p;
+        coord = p;
         _siteIndex = index;
         this.weight = weight;
         this.color = color;
-        _edges = new ArrayList();
+        edges = new ArrayList();
         _region = null;
         return this;
     }
@@ -105,19 +102,19 @@ public final class Site implements ICoord {
 
     private void move(Point p) {
         clear();
-        _coord = p;
+        coord = p;
     }
 
     public void dispose() {
-        _coord = null;
+        coord = null;
         clear();
         _pool.push(this);
     }
 
     private void clear() {
-        if (_edges != null) {
-            _edges.clear();
-            _edges = null;
+        if (edges != null) {
+            edges.clear();
+            edges = null;
         }
         if (_edgeOrientations != null) {
             _edgeOrientations.clear();
@@ -130,29 +127,29 @@ public final class Site implements ICoord {
     }
 
     void addEdge(Edge edge) {
-        _edges.add(edge);
+        edges.add(edge);
     }
 
     public Edge nearestEdge() {
         // edges.sort(Edge.compareSitesDistances);
-        Collections.sort(_edges, new Comparator<Edge>() {
+        Collections.sort(edges, new Comparator<Edge>() {
             @Override
             public int compare(Edge o1, Edge o2) {
                 return (int) Edge.Companion.compareSitesDistances(o1, o2);
             }
         });
-        return _edges.get(0);
+        return edges.get(0);
     }
 
     ArrayList<Site> neighborSites() {
-        if (_edges == null || _edges.isEmpty()) {
+        if (edges == null || edges.isEmpty()) {
             return new ArrayList();
         }
         if (_edgeOrientations == null) {
             reorderEdges();
         }
         ArrayList<Site> list = new ArrayList();
-        for (Edge edge : _edges) {
+        for (Edge edge : edges) {
             list.add(neighborSite(edge));
         }
         return list;
@@ -169,7 +166,7 @@ public final class Site implements ICoord {
     }
 
     ArrayList<Point> region(Rectangle clippingBounds) {
-        if (_edges == null || _edges.isEmpty()) {
+        if (edges == null || edges.isEmpty()) {
             return new ArrayList();
         }
         if (_edgeOrientations == null) {
@@ -184,8 +181,8 @@ public final class Site implements ICoord {
 
     private void reorderEdges() {
         //trace("edges:", edges);
-        EdgeReorderer reorderer = new EdgeReorderer(_edges, Vertex.class);
-        _edges = reorderer.getEdges();
+        EdgeReorderer reorderer = new EdgeReorderer(edges, Vertex.class);
+        edges = reorderer.getEdges();
         //trace("reordered:", edges);
         _edgeOrientations = reorderer.getEdgeOrientations();
         reorderer.dispose();
@@ -193,10 +190,10 @@ public final class Site implements ICoord {
 
     private ArrayList<Point> clipToBounds(Rectangle bounds) {
         ArrayList<Point> points = new ArrayList();
-        int n = _edges.size();
+        int n = edges.size();
         int i = 0;
         Edge edge;
-        while (i < n && (!_edges.get(i).getVisible())) {
+        while (i < n && (!edges.get(i).getVisible())) {
             ++i;
         }
 
@@ -204,13 +201,13 @@ public final class Site implements ICoord {
             // no edges visible
             return new ArrayList();
         }
-        edge = _edges.get(i);
+        edge = edges.get(i);
         LR orientation = _edgeOrientations.get(i);
         points.add(edge.getClippedEnds().get(orientation));
-        points.add(edge.getClippedEnds().get((LR.other(orientation))));
+        points.add(edge.getClippedEnds().get((LR.Companion.other(orientation))));
 
         for (int j = i + 1; j < n; ++j) {
-            edge = _edges.get(j);
+            edge = edges.get(j);
             if (!edge.getVisible()) {
                 continue;
             }
@@ -224,7 +221,7 @@ public final class Site implements ICoord {
 
     private void connect(ArrayList<Point> points, int j, Rectangle bounds, boolean closingUp) {
         Point rightPoint = points.get(points.size() - 1);
-        Edge newEdge = _edges.get(j);
+        Edge newEdge = edges.get(j);
         LR newOrientation = _edgeOrientations.get(j);
         // the point that  must be connected to rightPoint:
         Point newPoint = newEdge.getClippedEnds().get(newOrientation);
@@ -317,22 +314,22 @@ public final class Site implements ICoord {
             }
             points.add(newPoint);
         }
-        Point newRightPoint = newEdge.getClippedEnds().get(LR.other(newOrientation));
+        Point newRightPoint = newEdge.getClippedEnds().get(LR.Companion.other(newOrientation));
         if (!closeEnough(points.get(0), newRightPoint)) {
             points.add(newRightPoint);
         }
     }
 
     public double get_x() {
-        return _coord.getX();
+        return coord.getX();
     }
 
     public double get_y() {
-        return _coord.getY();
+        return coord.getY();
     }
 
     public double dist(ICoord p) {
-        return Point.Companion.distance(p.getCoord(), this._coord);
+        return Point.Companion.distance(p.getCoord(), this.coord);
     }
 }
 

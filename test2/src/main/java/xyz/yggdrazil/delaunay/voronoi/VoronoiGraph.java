@@ -20,9 +20,15 @@ public abstract class VoronoiGraph {
     final public ArrayList<Corner> corners = new ArrayList();
     final public ArrayList<Center> centers = new ArrayList();
     final public Rectangle bounds;
+    final public BufferedImage pixelCenterMap;
+    final int bumps;
+    final double startAngle;
+    final double dipAngle;
+    final double dipWidth;
     final private Random r;
     protected Color OCEAN, RIVER, LAKE, BEACH;
-    final public BufferedImage pixelCenterMap;
+    double[][] noise;
+    double ISLAND_FACTOR = 1.07;  // 1.0 means no small islands; 2.0 leads to a lot
 
     public VoronoiGraph(Voronoi v, int numLloydRelaxations, Random r) {
         this.r = r;
@@ -176,7 +182,7 @@ public abstract class VoronoiGraph {
             //one of the four corners (either 0,0 or 0,height or width,0 or width,height)
             //note: the 'missing polygon' may have more than just 4 points. this
             //is common when the number of sites are quite low (less than 5), but not a problem
-            //with a more useful number of sites. 
+            //with a more useful number of sites.
             //TODO: find a way to fix this
 
             if (closeEnough(edgeCorner1.loc.getX(), edgeCorner2.loc.getX(), 1)) {
@@ -279,10 +285,10 @@ public abstract class VoronoiGraph {
             edge.index = edges.size();
             edges.add(edge);
 
-            edge.v0 = makeCorner(pointCornerMap, vEdge.p0);
-            edge.v1 = makeCorner(pointCornerMap, vEdge.p1);
-            edge.d0 = pointCenterMap.get(dEdge.p0);
-            edge.d1 = pointCenterMap.get(dEdge.p1);
+            edge.v0 = makeCorner(pointCornerMap, vEdge.getP0());
+            edge.v1 = makeCorner(pointCornerMap, vEdge.getP1());
+            edge.d0 = pointCenterMap.get(dEdge.getP0());
+            edge.d1 = pointCenterMap.get(dEdge.getP1());
 
             // Centers point to edges. Corners point to edges.
             if (edge.d0 != null) {
@@ -390,13 +396,6 @@ public abstract class VoronoiGraph {
             }
         }
     }
-
-    double[][] noise;
-    double ISLAND_FACTOR = 1.07;  // 1.0 means no small islands; 2.0 leads to a lot
-    final int bumps;
-    final double startAngle;
-    final double dipAngle;
-    final double dipWidth;
 
     //only the radial implementation of amitp's map generation
     //TODO implement more island shapes
