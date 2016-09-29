@@ -50,7 +50,7 @@ public final class SiteList implements IDisposable {
 
     public Rectangle getSitesBounds() {
         if (!_sorted) {
-            Site.sortSites(_sites);
+            Site.Companion.sortSites(_sites);
             _currentIndex = 0;
             _sorted = true;
         }

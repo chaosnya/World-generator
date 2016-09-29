@@ -119,7 +119,7 @@ public final class Voronoi {
 
     private void addSite(Point p, Color color, int index) {
         double weight = Math.random() * 100;
-        Site site = Site.create(p, index, weight, color);
+        Site site = Site.Companion.create(p, index, weight, color);
         _sites.push(site);
         _sitesIndexedByLocation.put(p, site);
     }
