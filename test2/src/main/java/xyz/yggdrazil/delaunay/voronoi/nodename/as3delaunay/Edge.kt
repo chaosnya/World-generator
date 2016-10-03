@@ -76,7 +76,7 @@ class Edge private constructor() {
         get() = leftVertex == null || rightVertex == null
 
     fun sitesDistance(): Double {
-        return Point.distance(leftSite.coord, rightSite.coord)
+        return Point.distance(leftSite.coord!!, rightSite.coord!!)
     }
 
     fun site(leftRight: LR): Site {

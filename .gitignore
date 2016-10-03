@@ -9,3 +9,4 @@ test/build/
 *.class
 algorithm/delaunay/build/
 test2/build/
+test2/output

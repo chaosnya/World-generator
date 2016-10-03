@@ -9,7 +9,7 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.Stack
 
-class Site(p: Point, index: Int, weight: Double, var color: Color) : ICoord {
+class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
 
     override var coord: Point? = null
     var weight: Double = 0.toDouble()
@@ -26,7 +26,7 @@ class Site(p: Point, index: Int, weight: Double, var color: Color) : ICoord {
         init(p, index, weight, color)
     }
 
-    private fun init(p: Point, index: Int, weight: Double, color: Color): Site {
+    private fun init(p: Point, index: Int, weight: Double, color: Color?): Site {
         coord = p
         _siteIndex = index
         this.weight = weight
@@ -270,7 +270,7 @@ class Site(p: Point, index: Int, weight: Double, var color: Color) : ICoord {
         private val EPSILON = .005
         private val pool = Stack<Site>()
 
-        fun create(p: Point, index: Int, weight: Double, color: Color): Site {
+        fun create(p: Point, index: Int, weight: Double, color: Color?): Site {
             if (pool.size > 0) {
                 return pool.pop().init(p, index, weight, color)
             } else {

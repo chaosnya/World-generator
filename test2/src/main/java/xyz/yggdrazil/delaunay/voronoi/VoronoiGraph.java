@@ -16,9 +16,9 @@ import java.util.*;
  */
 public abstract class VoronoiGraph {
 
-    final public ArrayList<Edge> edges = new ArrayList();
-    final public ArrayList<Corner> corners = new ArrayList();
-    final public ArrayList<Center> centers = new ArrayList();
+    final public ArrayList<Edge> edges = new ArrayList<>();
+    final public ArrayList<Corner> corners = new ArrayList<>();
+    final public ArrayList<Center> centers = new ArrayList<>();
     final public Rectangle bounds;
     final public BufferedImage pixelCenterMap;
     final int bumps;
@@ -36,7 +36,7 @@ public abstract class VoronoiGraph {
         startAngle = r.nextDouble() * 2 * Math.PI;
         dipAngle = r.nextDouble() * 2 * Math.PI;
         dipWidth = r.nextDouble() * .5 + .2;
-        bounds = v.get_plotBounds();
+        bounds = v.getPlotBounds();
         for (int i = 0; i < numLloydRelaxations; i++) {
             ArrayList<Point> points = v.siteCoords();
             for (Point p : points) {
@@ -52,7 +52,7 @@ public abstract class VoronoiGraph {
                 p.setX(x);
                 p.setY(y);
             }
-            v = new Voronoi(points, null, v.get_plotBounds());
+            v = new Voronoi(points, null, v.getPlotBounds());
         }
         buildGraph(v);
         improveCorners();
@@ -274,7 +274,7 @@ public abstract class VoronoiGraph {
             v.region(c.loc);
         });
 
-        final ArrayList<xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.Edge> libedges = v.edges();
+        final ArrayList<xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.Edge> libedges = v.getEdges();
         final HashMap<Integer, Corner> pointCornerMap = new HashMap();
 
         for (xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.Edge libedge : libedges) {

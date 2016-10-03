@@ -3,6 +3,7 @@ package xyz.yggdrazil
 import xyz.yggdrazil.delaunay.examples.TestGraphImpl
 import xyz.yggdrazil.delaunay.voronoi.VoronoiGraph
 import xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.Voronoi
+import java.awt.Color
 import java.awt.Graphics
 import java.io.File
 import java.util.*
@@ -33,7 +34,7 @@ fun main(args: Array<String>) {
     }
 
     frame.title = "java fortune"
-    frame.isVisible = true
+    //frame.isVisible = true
     frame.setSize(img.width + 50, img.height + 50)
     frame.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
 }
@@ -43,7 +44,7 @@ fun createVoronoiGraph(bounds: Int, numSites: Int, numLloydRelaxations: Int, see
     val r = Random(seed)
 
     //make the intial underlying voronoi structure
-    val v = Voronoi(numSites, bounds.toDouble(), bounds.toDouble(), r, null)
+    val v = Voronoi(numSites, bounds.toDouble(), bounds.toDouble(), r, ArrayList<Color>())
 
     //assemble the voronoi strucutre into a usable graph object representing a map
     val graph = TestGraphImpl(v, numLloydRelaxations, r)
