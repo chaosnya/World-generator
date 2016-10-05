@@ -2,8 +2,8 @@ package xyz.yggdrazil.delaunay.voronoi;
 
 import xyz.yggdrazil.delaunay.geom.Point;
 import xyz.yggdrazil.delaunay.geom.Rectangle;
-import xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.LineSegment;
-import xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.Voronoi;
+import xyz.yggdrazil.fortune.LineSegment;
+import xyz.yggdrazil.fortune.Voronoi;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -274,10 +274,10 @@ public abstract class VoronoiGraph {
             v.region(c.loc);
         });
 
-        final ArrayList<xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.Edge> libedges = v.getEdges();
+        final ArrayList<xyz.yggdrazil.fortune.Edge> libedges = v.getEdges();
         final HashMap<Integer, Corner> pointCornerMap = new HashMap();
 
-        for (xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.Edge libedge : libedges) {
+        for (xyz.yggdrazil.fortune.Edge libedge : libedges) {
             final LineSegment vEdge = libedge.voronoiEdge();
             final LineSegment dEdge = libedge.delaunayLine();
 

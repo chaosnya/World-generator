@@ -2,7 +2,7 @@ package xyz.yggdrazil.delaunay.examples;
 
 import xyz.yggdrazil.delaunay.voronoi.Center;
 import xyz.yggdrazil.delaunay.voronoi.VoronoiGraph;
-import xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.Voronoi;
+import xyz.yggdrazil.fortune.Voronoi;
 
 import java.awt.*;
 import java.util.Random;

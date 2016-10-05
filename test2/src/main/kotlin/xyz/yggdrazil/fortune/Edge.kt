@@ -1,4 +1,4 @@
-package xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay
+package xyz.yggdrazil.fortune
 
 import xyz.yggdrazil.delaunay.geom.Point
 import xyz.yggdrazil.delaunay.geom.Rectangle
@@ -266,7 +266,7 @@ class Edge private constructor() {
                 c /= dy
             }
 
-            val edge = Edge.create()
+            val edge = create()
 
             edge.leftSite = site0
             edge.rightSite = site1

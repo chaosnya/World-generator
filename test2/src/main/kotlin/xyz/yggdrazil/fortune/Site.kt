@@ -1,4 +1,4 @@
-package xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay
+package xyz.yggdrazil.fortune
 
 import xyz.yggdrazil.delaunay.geom.Point
 import xyz.yggdrazil.delaunay.geom.Rectangle
@@ -280,7 +280,7 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
 
         fun sortSites(sites: ArrayList<Site>) {
             //sites.sort(Site.compare);
-            Collections.sort(sites) { o1, o2 -> Site.compare(o1, o2).toInt() }
+            Collections.sort(sites) { o1, o2 -> Companion.compare(o1, o2).toInt() }
         }
 
         /**

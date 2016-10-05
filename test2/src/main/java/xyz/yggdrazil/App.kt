@@ -2,7 +2,7 @@ package xyz.yggdrazil
 
 import xyz.yggdrazil.delaunay.examples.TestGraphImpl
 import xyz.yggdrazil.delaunay.voronoi.VoronoiGraph
-import xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay.Voronoi
+import xyz.yggdrazil.fortune.Voronoi
 import java.awt.Color
 import java.awt.Graphics
 import java.io.File

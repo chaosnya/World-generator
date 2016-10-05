@@ -1,4 +1,4 @@
-package xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay
+package xyz.yggdrazil.fortune
 
 class LR(private val name: String) {
 

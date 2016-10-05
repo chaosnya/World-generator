@@ -1,4 +1,4 @@
-package xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay
+package xyz.yggdrazil.fortune
 
 import xyz.yggdrazil.delaunay.geom.Point
 
@@ -107,7 +107,7 @@ class Vertex(x: Double, y: Double) : ICoord {
                 return null
             }
 
-            return Vertex.create(intersectionX, intersectionY)
+            return Companion.create(intersectionX, intersectionY)
         }
     }
 }

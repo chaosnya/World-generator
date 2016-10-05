@@ -1,4 +1,4 @@
-package xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay
+package xyz.yggdrazil.fortune
 
 /*
  * Java implementaition by Connor Clark (www.hotengames.com). Pretty much a 1:1
@@ -293,7 +293,7 @@ class Voronoi {
                 newintstar = heap.min()
             }
 
-            if (newSite != null && (heap.empty() || compareByYThenX(newSite, newintstar!!) < 0)) {
+            if (newSite != null && (heap.empty() || Companion.compareByYThenX(newSite, newintstar!!) < 0)) {
                 /* new site is smallest */
                 //trace("smallest: new site " + newSite);
 

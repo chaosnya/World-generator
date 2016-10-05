@@ -1,4 +1,4 @@
-package xyz.yggdrazil.delaunay.voronoi.nodename.as3delaunay
+package xyz.yggdrazil.fortune
 
 import xyz.yggdrazil.delaunay.geom.Point
 import java.util.*
