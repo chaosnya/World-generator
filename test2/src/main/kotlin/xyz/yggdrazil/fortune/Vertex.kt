@@ -1,8 +1,7 @@
 package xyz.yggdrazil.fortune
 
 import xyz.yggdrazil.delaunay.geom.Point
-
-import java.util.Stack
+import java.util.*
 
 class Vertex(x: Double, y: Double) : ICoord {
 
@@ -95,7 +94,7 @@ class Vertex(x: Double, y: Double) : ICoord {
             intersectionX = (edge0.c * edge1.b - edge1.c * edge0.b) / determinant
             intersectionY = (edge1.c * edge0.a - edge0.c * edge1.a) / determinant
 
-            if (Voronoi.compareByYThenX(edge0.rightSite, edge1.rightSite) < 0) {
+            if (compareByYThenX(edge0.rightSite, edge1.rightSite) < 0) {
                 halfedge = halfedge0
                 edge = edge0
             } else {

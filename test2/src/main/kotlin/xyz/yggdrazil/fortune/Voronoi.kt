@@ -33,7 +33,7 @@ import xyz.yggdrazil.delaunay.geom.Rectangle
 import java.awt.Color
 import java.util.*
 
-class Voronoi {
+class Voronoi(points: ArrayList<Point>, colors: ArrayList<Color>?, var plotBounds: Rectangle) {
 
     private var sites: SiteList? = null
     private var sitesIndexedByLocation: HashMap<Point, Site>? = null
@@ -41,10 +41,19 @@ class Voronoi {
     var edges: ArrayList<Edge>? = null
         private set
 
-    // TODO generalize this so it doesn't have to be a rectangle;
-    // then we can make the fractal voronois-within-voronois
-    var plotBounds: Rectangle? = null
-        private set
+    init {
+        init(points, colors, plotBounds)
+        fortunesAlgorithm()
+    }
+
+    private fun init(points: ArrayList<Point>, colors: ArrayList<Color>?, plotBounds: Rectangle) {
+        sites = SiteList()
+        sitesIndexedByLocation = HashMap()
+        addSites(points, colors)
+        this.plotBounds = plotBounds
+        triangles = ArrayList()
+        edges = ArrayList()
+    }
 
     fun dispose() {
         var i: Int
@@ -73,44 +82,9 @@ class Voronoi {
             edges!!.clear()
             edges = null
         }
-        plotBounds = null
         sitesIndexedByLocation = null
     }
 
-    constructor(points: ArrayList<Point>, colors: ArrayList<Color>?, plotBounds: Rectangle) {
-        init(points, colors, plotBounds)
-        fortunesAlgorithm()
-    }
-
-    constructor(points: ArrayList<Point>, colors: ArrayList<Color>) {
-        var maxWidth = 0.0
-        var maxHeight = 0.0
-        for (p in points) {
-            maxWidth = Math.max(maxWidth, p.x)
-            maxHeight = Math.max(maxHeight, p.y)
-        }
-        println("${maxWidth},${maxHeight}")
-        init(points, colors, Rectangle(0.0, 0.0, maxWidth, maxHeight))
-        fortunesAlgorithm()
-    }
-
-    constructor(numSites: Int, maxWidth: Double, maxHeight: Double, r: Random, colors: ArrayList<Color>) {
-        val points = ArrayList<Point>()
-        for (i in 0..numSites - 1) {
-            points.add(Point(r.nextDouble() * maxWidth, r.nextDouble() * maxHeight))
-        }
-        init(points, colors, Rectangle(0.0, 0.0, maxWidth, maxHeight))
-        fortunesAlgorithm()
-    }
-
-    private fun init(points: ArrayList<Point>, colors: ArrayList<Color>?, plotBounds: Rectangle) {
-        sites = SiteList()
-        sitesIndexedByLocation = HashMap()
-        addSites(points, colors)
-        this.plotBounds = plotBounds
-        triangles = ArrayList()
-        edges = ArrayList()
-    }
 
     private fun addSites(points: ArrayList<Point>, colors: ArrayList<Color>?) {
         val length = points.size
@@ -290,7 +264,7 @@ class Voronoi {
                 newintstar = heap.min()
             }
 
-            if (newSite != null && (heap.empty() || Companion.compareByYThenX(newSite, newintstar!!) < 0)) {
+            if (newSite != null && (heap.empty() || compareByYThenX(newSite, newintstar!!) < 0)) {
                 /* new site is smallest */
                 //trace("smallest: new site " + newSite);
 
@@ -421,38 +395,57 @@ class Voronoi {
         return edge.site(LR.other(he.leftRight!!))
     }
 
-    companion object {
 
-        fun compareByYThenX(s1: Site, s2: Site): Int {
-            if (s1._y < s2._y) {
-                return -1
+    companion object {
+        fun generate(points: ArrayList<Point>, colors: ArrayList<Color>): Voronoi {
+            var maxWidth = 0.0
+            var maxHeight = 0.0
+            for (p in points) {
+                maxWidth = Math.max(maxWidth, p.x)
+                maxHeight = Math.max(maxHeight, p.y)
             }
-            if (s1._y > s2._y) {
-                return 1
-            }
-            if (s1._x < s2._x) {
-                return -1
-            }
-            if (s1._x > s2._x) {
-                return 1
-            }
-            return 0
+
+            return Voronoi(points, colors, Rectangle(0.0, 0.0, maxWidth, maxHeight))
         }
 
-        fun compareByYThenX(s1: Site, s2: Point): Int {
-            if (s1._y < s2.y) {
-                return -1
+        fun generate(numSites: Int, maxWidth: Double, maxHeight: Double, r: Random, colors: ArrayList<Color>): Voronoi {
+            val points = ArrayList<Point>()
+            for (i in 0..numSites - 1) {
+                points.add(Point(r.nextDouble() * maxWidth, r.nextDouble() * maxHeight))
             }
-            if (s1._y > s2.y) {
-                return 1
-            }
-            if (s1._x < s2.x) {
-                return -1
-            }
-            if (s1._x > s2.x) {
-                return 1
-            }
-            return 0
+            return Voronoi(points, colors, Rectangle(0.0, 0.0, maxWidth, maxHeight))
         }
     }
+}
+
+internal fun compareByYThenX(s1: Site, s2: Site): Int {
+    if (s1._y < s2._y) {
+        return -1
+    }
+    if (s1._y > s2._y) {
+        return 1
+    }
+    if (s1._x < s2._x) {
+        return -1
+    }
+    if (s1._x > s2._x) {
+        return 1
+    }
+    return 0
+}
+
+internal fun compareByYThenX(s1: Site, s2: Point): Int {
+    if (s1._y < s2.y) {
+        return -1
+    }
+    if (s1._y > s2.y) {
+        return 1
+    }
+    if (s1._x < s2.x) {
+        return -1
+    }
+    if (s1._x > s2.x) {
+        return 1
+    }
+    return 0
 }

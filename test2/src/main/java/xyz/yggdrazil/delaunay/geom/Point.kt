@@ -1,8 +1,6 @@
 package xyz.yggdrazil.delaunay.geom
 
 /**
- * Point.java
-
  * @author Connor
  */
 class Point(var x: Double, var y: Double) {

@@ -39,10 +39,10 @@ public class TestGraphImpl extends VoronoiGraph {
 
     public TestGraphImpl(Voronoi v, int numLloydRelaxations, Random r) {
         super(v, numLloydRelaxations, r);
-        OCEAN = ColorData.OCEAN.color;
-        LAKE = ColorData.LAKE.color;
-        BEACH = ColorData.BEACH.color;
-        RIVER = ColorData.RIVER.color;
+        setOCEAN(ColorData.OCEAN.color);
+        setLAKE(ColorData.LAKE.color);
+        setBEACH(ColorData.BEACH.color);
+        setRIVER(ColorData.RIVER.color);
     }
 
     @Override
@@ -52,52 +52,52 @@ public class TestGraphImpl extends VoronoiGraph {
 
     @Override
     protected Enum getBiome(Center p) {
-        if (p.ocean) {
+        if (p.getOcean()) {
             return ColorData.OCEAN;
-        } else if (p.water) {
-            if (p.elevation < 0.1) {
+        } else if (p.getWater()) {
+            if (p.getElevation() < 0.1) {
                 return ColorData.MARSH;
             }
-            if (p.elevation > 0.8) {
+            if (p.getElevation() > 0.8) {
                 return ColorData.ICE;
             }
             return ColorData.LAKE;
-        } else if (p.coast) {
+        } else if (p.getCoast()) {
             return ColorData.BEACH;
-        } else if (p.elevation > 0.8) {
-            if (p.moisture > 0.50) {
+        } else if (p.getElevation() > 0.8) {
+            if (p.getMoisture() > 0.50) {
                 return ColorData.SNOW;
-            } else if (p.moisture > 0.33) {
+            } else if (p.getMoisture() > 0.33) {
                 return ColorData.TUNDRA;
-            } else if (p.moisture > 0.16) {
+            } else if (p.getMoisture() > 0.16) {
                 return ColorData.BARE;
             } else {
                 return ColorData.SCORCHED;
             }
-        } else if (p.elevation > 0.6) {
-            if (p.moisture > 0.66) {
+        } else if (p.getElevation() > 0.6) {
+            if (p.getMoisture() > 0.66) {
                 return ColorData.TAIGA;
-            } else if (p.moisture > 0.33) {
+            } else if (p.getMoisture() > 0.33) {
                 return ColorData.SHRUBLAND;
             } else {
                 return ColorData.TEMPERATE_DESERT;
             }
-        } else if (p.elevation > 0.3) {
-            if (p.moisture > 0.83) {
+        } else if (p.getElevation() > 0.3) {
+            if (p.getMoisture() > 0.83) {
                 return ColorData.TEMPERATE_RAIN_FOREST;
-            } else if (p.moisture > 0.50) {
+            } else if (p.getMoisture() > 0.50) {
                 return ColorData.TEMPERATE_DECIDUOUS_FOREST;
-            } else if (p.moisture > 0.16) {
+            } else if (p.getMoisture() > 0.16) {
                 return ColorData.GRASSLAND;
             } else {
                 return ColorData.TEMPERATE_DESERT;
             }
         } else {
-            if (p.moisture > 0.66) {
+            if (p.getMoisture() > 0.66) {
                 return ColorData.TROPICAL_RAIN_FOREST;
-            } else if (p.moisture > 0.33) {
+            } else if (p.getMoisture() > 0.33) {
                 return ColorData.TROPICAL_SEASONAL_FOREST;
-            } else if (p.moisture > 0.16) {
+            } else if (p.getMoisture() > 0.16) {
                 return ColorData.GRASSLAND;
             } else {
                 return ColorData.SUBTROPICAL_DESERT;

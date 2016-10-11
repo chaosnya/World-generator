@@ -44,7 +44,7 @@ fun createVoronoiGraph(bounds: Int, numSites: Int, numLloydRelaxations: Int, see
     val r = Random(seed)
 
     //make the intial underlying voronoi structure
-    val v = Voronoi(numSites, bounds.toDouble(), bounds.toDouble(), r, ArrayList<Color>())
+    val v = Voronoi.generate(numSites, bounds.toDouble(), bounds.toDouble(), r, ArrayList<Color>())
 
     //assemble the voronoi strucutre into a usable graph object representing a map
     val graph = TestGraphImpl(v, numLloydRelaxations, r)

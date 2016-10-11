@@ -288,7 +288,7 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
          * haha "also" - means more than one responsibility...
          */
         private fun compare(s1: Site, s2: Site): Double {
-            val returnValue = Voronoi.compareByYThenX(s1, s2)
+            val returnValue = compareByYThenX(s1, s2)
 
             // swap _siteIndex values if necessary to match new ordering:
             val tempIndex: Int
