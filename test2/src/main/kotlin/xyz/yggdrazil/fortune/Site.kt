@@ -2,12 +2,8 @@ package xyz.yggdrazil.fortune
 
 import xyz.yggdrazil.delaunay.geom.Point
 import xyz.yggdrazil.delaunay.geom.Rectangle
-
-import java.awt.*
-import java.util.ArrayList
-import java.util.Collections
-import java.util.Comparator
-import java.util.Stack
+import java.awt.Color
+import java.util.*
 
 class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
 
@@ -170,7 +166,7 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
                 // half of the bounds rect, for then we will have gone the wrong way
                 // around the bounds and included the smaller part rather than the larger)
                 val rightCheck = BoundsCheck.check(rightPoint, bounds)
-                val newCheck = BoundsCheck.check(newPoint!!, bounds)
+                val newCheck = BoundsCheck.check(newPoint, bounds)
                 val px: Double
                 val py: Double
                 if (rightCheck and BoundsCheck.RIGHT != 0) {
@@ -247,11 +243,11 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
                 // newEdge's ends have already been added
                 return
             }
-            points.add(newPoint!!)
+            points.add(newPoint)
         }
         val newRightPoint = newEdge.clippedEnds!![LR.other(newOrientation)]
         if (!closeEnough(points[0], newRightPoint!!)) {
-            points.add(newRightPoint!!)
+            points.add(newRightPoint)
         }
     }
 

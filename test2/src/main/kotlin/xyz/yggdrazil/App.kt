@@ -34,7 +34,7 @@ fun main(args: Array<String>) {
     }
 
     frame.title = "java fortune"
-    //frame.isVisible = true
+    frame.isVisible = true
     frame.setSize(img.width + 50, img.height + 50)
     frame.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
 }

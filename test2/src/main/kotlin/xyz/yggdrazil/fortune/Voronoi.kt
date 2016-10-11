@@ -30,11 +30,8 @@ package xyz.yggdrazil.fortune
 
 import xyz.yggdrazil.delaunay.geom.Point
 import xyz.yggdrazil.delaunay.geom.Rectangle
-
-import java.awt.*
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.Random
+import java.awt.Color
+import java.util.*
 
 class Voronoi {
 
@@ -349,7 +346,7 @@ class Voronoi {
                 rbnd = lbnd.edgeListRightNeighbor!!
                 rrbnd = rbnd.edgeListRightNeighbor!!
                 bottomSite = leftRegion(lbnd, bottomMostSite!!)
-                topSite = rightRegion(rbnd, bottomMostSite!!)
+                topSite = rightRegion(rbnd, bottomMostSite)
                 // these three sites define a Delaunay triangle
                 // (not actually using these for anything...)
                 //triangles.push(new Triangle(bottomSite, topSite, rightRegion(lbnd)));
