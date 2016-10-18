@@ -1,6 +1,6 @@
 package xyz.yggdrazil.fortune
 
-import xyz.yggdrazil.delaunay.geom.Point
+import xyz.yggdrazil.math.geometry.Point
 
 class LineSegment(var p0: Point?, var p1: Point?) {
     companion object {

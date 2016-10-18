@@ -1,6 +1,6 @@
 package xyz.yggdrazil.fortune
 
-import xyz.yggdrazil.delaunay.geom.Point
+import xyz.yggdrazil.math.geometry.Point
 
 import java.util.ArrayList
 

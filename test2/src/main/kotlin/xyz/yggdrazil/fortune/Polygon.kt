@@ -1,6 +1,6 @@
 package xyz.yggdrazil.fortune
 
-import xyz.yggdrazil.delaunay.geom.Point
+import xyz.yggdrazil.math.geometry.Point
 import java.util.*
 
 class Polygon(private val vertices: ArrayList<Point>) {

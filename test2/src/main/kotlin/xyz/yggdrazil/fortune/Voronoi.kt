@@ -28,12 +28,12 @@ package xyz.yggdrazil.fortune
  * OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
  */
 
-import xyz.yggdrazil.delaunay.geom.Point
-import xyz.yggdrazil.delaunay.geom.Rectangle
+import xyz.yggdrazil.math.geometry.Point
+import xyz.yggdrazil.math.geometry.Rectangle
 import java.awt.Color
 import java.util.*
 
-class Voronoi(points: ArrayList<Point>, colors: ArrayList<Color>?, var plotBounds: Rectangle) {
+class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
 
     private var sites: SiteList? = null
     private var sitesIndexedByLocation: HashMap<Point, Site>? = null
@@ -42,14 +42,14 @@ class Voronoi(points: ArrayList<Point>, colors: ArrayList<Color>?, var plotBound
         private set
 
     init {
-        init(points, colors, plotBounds)
+        init(points, plotBounds)
         fortunesAlgorithm()
     }
 
-    private fun init(points: ArrayList<Point>, colors: ArrayList<Color>?, plotBounds: Rectangle) {
+    private fun init(points: ArrayList<Point>, plotBounds: Rectangle) {
         sites = SiteList()
         sitesIndexedByLocation = HashMap()
-        addSites(points, colors)
+        addSites(points)
         this.plotBounds = plotBounds
         triangles = ArrayList()
         edges = ArrayList()
@@ -86,7 +86,7 @@ class Voronoi(points: ArrayList<Point>, colors: ArrayList<Color>?, var plotBound
     }
 
 
-    private fun addSites(points: ArrayList<Point>, colors: ArrayList<Color>?) {
+    private fun addSites(points: ArrayList<Point>) {
         val length = points.size
         for (i in 0..length - 1) {
             addSite(points[i], null, i)
@@ -238,7 +238,6 @@ class Voronoi(points: ArrayList<Point>, colors: ArrayList<Color>?, var plotBound
         var topSite: Site
         var tempSite: Site
         var v: Vertex
-        var vertex: Vertex
         var newintstar: Point? = null
         var leftRight: LR
         var lbnd: Halfedge
@@ -265,21 +264,19 @@ class Voronoi(points: ArrayList<Point>, colors: ArrayList<Color>?, var plotBound
             }
 
             if (newSite != null && (heap.empty() || compareByYThenX(newSite, newintstar!!) < 0)) {
-                /* new site is smallest */
-                //trace("smallest: new site " + newSite);
 
                 // Step 8:
                 lbnd = edgeList.edgeListLeftNeighbor(newSite.coord!!)    // the Halfedge just to the left of newSite
-                //trace("lbnd: " + lbnd);
+
                 rbnd = lbnd.edgeListRightNeighbor!!        // the Halfedge just to the right
-                //trace("rbnd: " + rbnd);
+
                 bottomSite = rightRegion(lbnd, bottomMostSite!!)        // this is the same as leftRegion(rbnd)
                 // this Site determines the region containing the new site
-                //trace("new Site is in region of existing site: " + bottomSite);
+
 
                 // Step 9:
                 edge = Edge.createBisectingEdge(bottomSite, newSite)
-                //trace("new edge: " + edge);
+
                 edges!!.add(edge)
 
                 bisector = Halfedge.create(edge, LR.LEFT)
@@ -397,7 +394,7 @@ class Voronoi(points: ArrayList<Point>, colors: ArrayList<Color>?, var plotBound
 
 
     companion object {
-        fun generate(points: ArrayList<Point>, colors: ArrayList<Color>): Voronoi {
+        fun generate(points: ArrayList<Point>): Voronoi {
             var maxWidth = 0.0
             var maxHeight = 0.0
             for (p in points) {
@@ -405,15 +402,15 @@ class Voronoi(points: ArrayList<Point>, colors: ArrayList<Color>?, var plotBound
                 maxHeight = Math.max(maxHeight, p.y)
             }
 
-            return Voronoi(points, colors, Rectangle(0.0, 0.0, maxWidth, maxHeight))
+            return Voronoi(points, Rectangle(0.0, 0.0, maxWidth, maxHeight))
         }
 
-        fun generate(numSites: Int, maxWidth: Double, maxHeight: Double, r: Random, colors: ArrayList<Color>): Voronoi {
+        fun generate(numSites: Int, maxWidth: Double, maxHeight: Double, r: Random): Voronoi {
             val points = ArrayList<Point>()
             for (i in 0..numSites - 1) {
                 points.add(Point(r.nextDouble() * maxWidth, r.nextDouble() * maxHeight))
             }
-            return Voronoi(points, colors, Rectangle(0.0, 0.0, maxWidth, maxHeight))
+            return Voronoi(points, Rectangle(0.0, 0.0, maxWidth, maxHeight))
         }
     }
 }

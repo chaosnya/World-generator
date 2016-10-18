@@ -1,4 +1,4 @@
-package xyz.yggdrazil.delaunay.geom
+package xyz.yggdrazil.math.geometry
 
 /**
  * @author Connor

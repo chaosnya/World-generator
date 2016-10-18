@@ -1,7 +1,7 @@
-package xyz.yggdrazil.delaunay.voronoi
+package xyz.yggdrazil.map.voronoi
 
-import xyz.yggdrazil.delaunay.geom.Point
-import xyz.yggdrazil.delaunay.geom.Rectangle
+import xyz.yggdrazil.math.geometry.Point
+import xyz.yggdrazil.math.geometry.Rectangle
 import xyz.yggdrazil.fortune.Voronoi
 import java.awt.BasicStroke
 import java.awt.Color
@@ -52,7 +52,7 @@ abstract class VoronoiGraph(var voronoi: Voronoi, numLloydRelaxations: Int, priv
                 p.x = x
                 p.y = y
             }
-            voronoi = Voronoi(points, null, voronoi.plotBounds)
+            voronoi = Voronoi(points, voronoi.plotBounds)
         }
         buildGraph(voronoi)
         improveCorners()
@@ -476,7 +476,7 @@ abstract class VoronoiGraph(var voronoi: Voronoi, numLloydRelaxations: Int, priv
     }
 
     private fun redistributeElevations(landCorners: ArrayList<Corner>) {
-        Collections.sort(landCorners, Comparator<xyz.yggdrazil.delaunay.voronoi.Corner> { o1, o2 ->
+        Collections.sort(landCorners, Comparator<xyz.yggdrazil.map.voronoi.Corner> { o1, o2 ->
             if (o1.elevation > o2.elevation) {
                 return@Comparator 1
             } else if (o1.elevation < o2.elevation) {
@@ -587,7 +587,7 @@ abstract class VoronoiGraph(var voronoi: Voronoi, numLloydRelaxations: Int, priv
     }
 
     private fun redistributeMoisture(landCorners: ArrayList<Corner>) {
-        Collections.sort(landCorners, Comparator<xyz.yggdrazil.delaunay.voronoi.Corner> { o1, o2 ->
+        Collections.sort(landCorners, Comparator<xyz.yggdrazil.map.voronoi.Corner> { o1, o2 ->
             if (o1.moisture > o2.moisture) {
                 return@Comparator 1
             } else if (o1.moisture < o2.moisture) {

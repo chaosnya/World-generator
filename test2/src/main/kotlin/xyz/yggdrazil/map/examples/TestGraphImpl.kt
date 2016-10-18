@@ -1,7 +1,7 @@
-package xyz.yggdrazil.delaunay.examples
+package xyz.yggdrazil.map.examples
 
-import xyz.yggdrazil.delaunay.voronoi.Center
-import xyz.yggdrazil.delaunay.voronoi.VoronoiGraph
+import xyz.yggdrazil.map.voronoi.Center
+import xyz.yggdrazil.map.voronoi.VoronoiGraph
 import xyz.yggdrazil.fortune.Voronoi
 
 import java.awt.*
@@ -87,7 +87,7 @@ class TestGraphImpl(v: Voronoi, numLloydRelaxations: Int, r: Random) : VoronoiGr
         }
     }
 
-    enum class ColorData private constructor(color: Int) {
+    enum class ColorData constructor(color: Int) {
 
         OCEAN(0x44447a), LAKE(0x336699), BEACH(0xa09077), SNOW(0xffffff),
         TUNDRA(0xbbbbaa), BARE(0x888888), SCORCHED(0x555555), TAIGA(0x99aa77),

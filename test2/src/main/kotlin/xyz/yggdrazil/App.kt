@@ -1,9 +1,9 @@
 package xyz.yggdrazil
 
-import xyz.yggdrazil.delaunay.examples.TestGraphImpl
-import xyz.yggdrazil.delaunay.voronoi.VoronoiGraph
 import xyz.yggdrazil.fortune.Voronoi
-import java.awt.Color
+import xyz.yggdrazil.map.examples.TestGraphImpl
+import xyz.yggdrazil.map.voronoi.VoronoiGraph
+import xyz.yggdrazil.midgard.demo.DemoApp
 import java.awt.Graphics
 import java.io.File
 import java.util.*
@@ -15,7 +15,9 @@ import javax.swing.WindowConstants
  * Created by Alexandre Mommers on 28/09/2016.
  */
 fun main(args: Array<String>) {
-    val bounds = 1000
+    DemoApp.run()
+
+    val bounds = 500
     val numSites = 30000
     val numLloydRelxations = 2
     val seed = System.nanoTime()
@@ -29,7 +31,7 @@ fun main(args: Array<String>) {
 
     val frame = object : JFrame() {
         override fun paint(g: Graphics?) {
-            g!!.drawImage(img, 25, 35, null)
+            g?.drawImage(img, 25, 35, null)
         }
     }
 
@@ -44,7 +46,7 @@ fun createVoronoiGraph(bounds: Int, numSites: Int, numLloydRelaxations: Int, see
     val r = Random(seed)
 
     //make the intial underlying voronoi structure
-    val v = Voronoi.generate(numSites, bounds.toDouble(), bounds.toDouble(), r, ArrayList<Color>())
+    val v = Voronoi.generate(numSites, bounds.toDouble(), bounds.toDouble(), r)
 
     //assemble the voronoi strucutre into a usable graph object representing a map
     val graph = TestGraphImpl(v, numLloydRelaxations, r)

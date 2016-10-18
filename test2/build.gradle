@@ -3,5 +3,6 @@ mainClassName = "xyz.yggdrazil.AppKt"
 
 
 dependencies {
-    compile project(':algorithm:delaunay')
+    //compile project(':algorithm:delaunay')
+    compile 'no.tornado:tornadofx:1.5.6'
 }

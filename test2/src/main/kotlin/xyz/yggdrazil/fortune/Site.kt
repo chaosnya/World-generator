@@ -1,7 +1,7 @@
 package xyz.yggdrazil.fortune
 
-import xyz.yggdrazil.delaunay.geom.Point
-import xyz.yggdrazil.delaunay.geom.Rectangle
+import xyz.yggdrazil.math.geometry.Point
+import xyz.yggdrazil.math.geometry.Rectangle
 import java.awt.Color
 import java.util.*
 

@@ -1,6 +1,6 @@
 package xyz.yggdrazil.fortune
 
-import xyz.yggdrazil.delaunay.geom.Point
+import xyz.yggdrazil.math.geometry.Point
 
 class Circle(centerX: Double, centerY: Double, var radius: Double) {
 

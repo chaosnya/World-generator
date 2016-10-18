@@ -1,4 +1,6 @@
-package xyz.yggdrazil.delaunay.geom
+package xyz.yggdrazil.math.geometry
+
+import xyz.yggdrazil.math.closeEnough
 
 /**
  * @author Connor
