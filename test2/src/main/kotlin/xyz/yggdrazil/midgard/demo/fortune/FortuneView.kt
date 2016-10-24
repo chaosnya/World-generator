@@ -26,7 +26,10 @@ class FortuneView : View() {
 
     init {
         title = "Fortune Preview"
-        sites.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(model.settings.sites, 1, Int.MAX_VALUE)
+        sites.valueFactory.value = model.settings.sites
+        lloydRelaxations.valueFactory.value = model.settings.lloydRelaxations
+        seed.valueFactory.value = model.settings.seed
+        //sites.valueFactory = SpinnerValueFactory.IntegerSpinnerValueFactory(model.settings.sites, 1, Int.MAX_VALUE)
     }
 
     override fun onDock() {

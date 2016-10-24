@@ -11,6 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import xyz.yggdrazil.midgard.demo.component.spinner?>
+
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
@@ -49,7 +52,11 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Spinner fx:id="seed" editable="true" />
+            <Spinner fx:id="seed" editable="true" >
+               <valueFactory>
+                  <LongSpinnerValueFactory min="1" max="9223372036854775807"/>
+               </valueFactory>
+            </Spinner>
             <Label text="Sites">
                <opaqueInsets>
                   <Insets />
@@ -58,13 +65,21 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Spinner fx:id="sites" editable="true" />
+            <Spinner fx:id="sites" editable="true" >
+               <valueFactory>
+                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="2147483647"/>
+               </valueFactory>
+            </Spinner>
             <Label text="Loyd relaxaton">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Spinner fx:id="lloydRelaxations" editable="true" />
+            <Spinner fx:id="lloydRelaxations" editable="true" >
+               <valueFactory>
+                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="2147483647"/>
+               </valueFactory>
+            </Spinner>
          </children>
          <GridPane.margin>
             <Insets />
