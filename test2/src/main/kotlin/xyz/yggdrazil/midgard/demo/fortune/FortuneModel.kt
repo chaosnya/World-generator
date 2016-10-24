@@ -5,7 +5,7 @@ package xyz.yggdrazil.midgard.demo.fortune
  */
 class FortuneModel {
     data class Settings(var sites: Int = 10000,
-                        var loydRelxations: Int = 2,
+                        var lloydRelaxations: Int = 2,
                         var seed: Long = System.nanoTime())
 
     val settings = Settings()
