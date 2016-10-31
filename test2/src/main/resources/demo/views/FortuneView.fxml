@@ -6,14 +6,13 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
-<?import xyz.yggdrazil.midgard.demo.component.spinner?>
-
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
@@ -35,12 +34,12 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <Canvas height="360.0" width="400.0" VBox.vgrow="ALWAYS" />
+            <Canvas fx:id="canvas" height="360.0" width="400.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
       <VBox alignment="TOP_CENTER" GridPane.columnIndex="1">
          <children>
-            <Button mnemonicParsing="false" text="Update render">
+            <Button fx:id="updateRender" mnemonicParsing="false" text="Update render">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Button>
@@ -52,11 +51,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Spinner fx:id="seed" editable="true" >
-               <valueFactory>
-                  <LongSpinnerValueFactory min="1" max="9223372036854775807"/>
-               </valueFactory>
-            </Spinner>
+            <TextField fx:id="seed" alignment="CENTER" editable="true" maxWidth="167.0" />
             <Label text="Sites">
                <opaqueInsets>
                   <Insets />
@@ -65,9 +60,9 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Spinner fx:id="sites" editable="true" >
+            <Spinner fx:id="sites" editable="true">
                <valueFactory>
-                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="2147483647"/>
+                  <SpinnerValueFactory.IntegerSpinnerValueFactory max="2147483647" min="1" />
                </valueFactory>
             </Spinner>
             <Label text="Loyd relaxaton">
@@ -75,9 +70,9 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Spinner fx:id="lloydRelaxations" editable="true" >
+            <Spinner fx:id="lloydRelaxations" editable="true">
                <valueFactory>
-                  <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="2147483647"/>
+                  <SpinnerValueFactory.IntegerSpinnerValueFactory max="2147483647" min="1" />
                </valueFactory>
             </Spinner>
          </children>

@@ -102,7 +102,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
 
     fun region(p: Point): ArrayList<Point> {
         val site = sitesIndexedByLocation!![p] ?: return ArrayList()
-        return site.region(plotBounds!!)!!
+        return site.region(plotBounds)!!
     }
 
     // TODO: bug: if you call this before you call region(), something goes wrong :(
@@ -405,10 +405,10 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
             return Voronoi(points, Rectangle(0.0, 0.0, maxWidth, maxHeight))
         }
 
-        fun generate(numSites: Int, maxWidth: Double, maxHeight: Double, r: Random): Voronoi {
+        fun generate(numSites: Int, maxWidth: Double, maxHeight: Double, random: Random): Voronoi {
             val points = ArrayList<Point>()
             for (i in 0..numSites - 1) {
-                points.add(Point(r.nextDouble() * maxWidth, r.nextDouble() * maxHeight))
+                points.add(Point(random.nextDouble() * maxWidth, random.nextDouble() * maxHeight))
             }
             return Voronoi(points, Rectangle(0.0, 0.0, maxWidth, maxHeight))
         }
