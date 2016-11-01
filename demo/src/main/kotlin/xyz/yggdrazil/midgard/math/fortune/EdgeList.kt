@@ -3,13 +3,13 @@ package xyz.yggdrazil.midgard.math.fortune
 import xyz.yggdrazil.midgard.math.geometry.Point
 import java.util.*
 
-class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites: Int) : IDisposable {
+class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites: Int) {
     private val hashsize: Int
     private var hash: ArrayList<Halfedge?>? = null
     var leftEnd: Halfedge? = null
     var rightEnd: Halfedge? = null
 
-    override fun dispose() {
+    fun dispose() {
         var halfEdge = leftEnd
         var prevHe: Halfedge?
         while (halfEdge != rightEnd) {

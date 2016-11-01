@@ -1,49 +1,36 @@
 package xyz.yggdrazil.midgard.demo.selector
 
-import javafx.animation.KeyFrame
-import javafx.animation.Timeline
-import javafx.event.EventHandler
-import javafx.scene.control.CheckBox
-import javafx.scene.control.PasswordField
-import javafx.scene.control.TextField
-import javafx.scene.layout.GridPane
-import javafx.util.Duration
-import xyz.yggdrazil.midgard.demo.selector.Styles.Companion.loginScreen
-import tornadofx.*
-import xyz.yggdrazil.midgard.demo.selector.SelectDemoController
+import javafx.scene.control.Button
+import javafx.scene.layout.VBox
+import tornadofx.FX
+import tornadofx.View
+import xyz.yggdrazil.midgard.demo.fortune.FortuneView
 
 class SelectDemoView : View() {
-    override val root = GridPane()
-    val selectDemoController: SelectDemoController by inject()
+    override val root: VBox by fxml("/demo/views/SelectorView.fxml")
 
-    var username: TextField by singleAssign()
-    var password: PasswordField by singleAssign()
-    var remember: CheckBox by singleAssign()
+    val fortuneDemo: Button by fxid()
+    val mapDemo: Button by fxid()
+
+    val fortuneView: FortuneView by inject()
 
     init {
-        title = "Please log in"
+        title = "Midgar map generator"
 
-        with (root) {
-            addClass(loginScreen)
-
-            row {
-                button("Login") {
-                    isDefaultButton = true
-
-                    setOnAction {
-                        selectDemoController.showFortuneView()
-                    }
-                }
+        fortuneDemo.setOnAction {
+            if (FX.primaryStage.scene.root != fortuneView.root) {
+                FX.primaryStage.scene.root = fortuneView.root
+                FX.primaryStage.sizeToScene()
+                FX.primaryStage.centerOnScreen()
             }
+        }
 
+        mapDemo.setOnAction {
+            if (FX.primaryStage.scene.root != fortuneView.root) {
+                FX.primaryStage.scene.root = fortuneView.root
+                FX.primaryStage.sizeToScene()
+                FX.primaryStage.centerOnScreen()
+            }
         }
     }
-
-    fun clear() {
-        username.clear()
-        password.clear()
-        remember.isSelected = false
-    }
-
-
 }

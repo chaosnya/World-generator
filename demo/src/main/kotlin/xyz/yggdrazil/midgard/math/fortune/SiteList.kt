@@ -4,19 +4,10 @@ import xyz.yggdrazil.midgard.math.geometry.Point
 import xyz.yggdrazil.midgard.math.geometry.Rectangle
 import java.util.*
 
-class SiteList : IDisposable {
-
+class SiteList {
     private val sites = ArrayList<Site>()
     private var currentIndex = 0
     private var sorted = false
-
-
-    override fun dispose() {
-        for (site in sites) {
-            site.dispose()
-        }
-        sites.clear()
-    }
 
     fun push(site: Site): Int {
         sorted = false
@@ -68,20 +59,11 @@ class SiteList : IDisposable {
 
             return Rectangle(xmin, ymin, xmax - xmin, ymax - ymin)
         }
-
-    /*public ArrayList<Color> siteColors(referenceImage:BitmapData = null)
-     {
-     var colors:Vector.<uint> = new Vector.<uint>();
-     for each (var site:Site in sites)
-     {
-     colors.push(referenceImage ? referenceImage.getPixel(site.x, site.y) : site.color);
-     }
-     return colors;
-     }*/
+    
     fun siteCoords(): ArrayList<Point> {
         val coords = ArrayList<Point>()
         for (site in sites) {
-            coords.add(site.coord!!)
+            coords.add(site.coord)
         }
         return coords
     }

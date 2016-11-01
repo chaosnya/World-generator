@@ -268,9 +268,12 @@ abstract class VoronoiGraph(var voronoi: Voronoi, numLloydRelaxations: Int, priv
             val edge = Edge()
             edge.index = edges.size
             edges.add(edge)
-
-            edge.v0 = makeCorner(pointCornerMap, vEdge.p0)
-            edge.v1 = makeCorner(pointCornerMap, vEdge.p1)
+            vEdge?.let {
+                edge.v0 = makeCorner(pointCornerMap, vEdge.p0)
+            }
+            vEdge?.let {
+                edge.v1 = makeCorner(pointCornerMap, vEdge.p1)
+            }
             edge.d0 = pointCenterMap.get(dEdge.p0)
             edge.d1 = pointCenterMap.get(dEdge.p1)
 

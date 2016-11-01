@@ -30,14 +30,12 @@ package xyz.yggdrazil.midgard.math.fortune
 
 import xyz.yggdrazil.midgard.math.geometry.Point
 import xyz.yggdrazil.midgard.math.geometry.Rectangle
-import java.awt.Color
 import java.util.*
 
 class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
 
     private var sites: SiteList = SiteList()
     private var sitesIndexedByLocation = HashMap<Point, Site>()
-    private var triangles = ArrayList<Triangle>()
     var edges = ArrayList<Edge>()
         private set
 
@@ -49,13 +47,12 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
     private fun addSites(points: ArrayList<Point>) {
         val length = points.size
         for (i in 0..length - 1) {
-            addSite(points[i], null, i)
+            addSite(points[i], i)
         }
     }
 
-    private fun addSite(p: Point, color: Color?, index: Int) {
-        val weight = Math.random() * 100
-        val site = Site.create(p, index, weight, color)
+    private fun addSite(p: Point, index: Int) {
+        val site = Site(p, index)
         sites.push(site)
         sitesIndexedByLocation.put(p, site)
     }
@@ -71,7 +68,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
         val site = sitesIndexedByLocation[coord] ?: return points
         val sites = site.neighborSites()
         for (neighbor in sites) {
-            points.add(neighbor!!.coord!!)
+            points.add(neighbor!!.coord)
         }
         return points
     }
@@ -98,7 +95,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
             if (edge.visible) {
                 val p1 = edge.clippedEnds!![LR.LEFT]
                 val p2 = edge.clippedEnds!![LR.RIGHT]
-                segments.add(LineSegment(p1, p2))
+                segments.add(LineSegment(p1!!, p2!!))
             }
         }
 
@@ -162,7 +159,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
         for (i in 0..n - 1) {
             val edge = hullEdges[i]
             orientation = orientations!![i]
-            points.add(edge.site(orientation).coord!!)
+            points.add(edge.site(orientation).coord)
         }
         return points
     }
@@ -210,7 +207,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
             if (newSite != null && (heap.empty() || compareByYThenX(newSite, newintstar!!) < 0)) {
 
                 // Step 8:
-                lbnd = edgeList.edgeListLeftNeighbor(newSite.coord!!)    // the Halfedge just to the left of newSite
+                lbnd = edgeList.edgeListLeftNeighbor(newSite.coord)    // the Halfedge just to the left of newSite
 
                 rbnd = lbnd.edgeListRightNeighbor!!        // the Halfedge just to the right
 
@@ -318,9 +315,6 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
             e.clipVertices(plotBounds)
         }
         // but we don't actually ever use them again!
-        for (v0 in vertices) {
-            v0.dispose()
-        }
         vertices.clear()
     }
 

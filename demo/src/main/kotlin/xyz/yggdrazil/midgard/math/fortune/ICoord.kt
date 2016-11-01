@@ -4,5 +4,5 @@ import xyz.yggdrazil.midgard.math.geometry.Point
 
 interface ICoord {
 
-    var coord: Point?
+    var coord: Point
 }

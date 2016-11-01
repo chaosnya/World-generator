@@ -1,27 +1,16 @@
 package xyz.yggdrazil.midgard.math.fortune
 
 import xyz.yggdrazil.midgard.math.geometry.Point
-import java.util.*
 
 class Vertex(x: Double, y: Double) : ICoord {
 
-    override var coord: Point? = null
+    override lateinit var coord: Point
 
     var vertexIndex: Int = 0
         private set
 
     init {
-        init(x, y)
-    }
-
-    private fun init(x: Double, y: Double): Vertex {
         coord = Point(x, y)
-        return this
-    }
-
-    fun dispose() {
-        coord = null
-        pool.push(this)
     }
 
     fun setIndex() {
@@ -33,15 +22,14 @@ class Vertex(x: Double, y: Double) : ICoord {
     }
 
     val _x: Double
-        get() = coord!!.x
+        get() = coord.x
 
     val _y: Double
-        get() = coord!!.y
+        get() = coord.y
 
     companion object {
 
         val VERTEX_AT_INFINITY = Vertex(java.lang.Double.NaN, java.lang.Double.NaN)
-        private val pool = Stack<Vertex>()
         private var nvertices = 0
 
         private fun create(x: Double, y: Double): Vertex {
@@ -49,12 +37,8 @@ class Vertex(x: Double, y: Double) : ICoord {
             if (java.lang.Double.isNaN(x) || java.lang.Double.isNaN(y)) {
                 return VERTEX_AT_INFINITY
             }
-            if (pool.size > 0) {
 
-                return pool.pop().init(x, y)
-            } else {
-                return Vertex(x, y)
-            }
+            return Vertex(x, y)
         }
 
         /**

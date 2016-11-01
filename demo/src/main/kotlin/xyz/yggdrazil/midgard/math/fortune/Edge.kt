@@ -56,12 +56,12 @@ class Edge private constructor() {
         return LineSegment(leftSite.coord, rightSite.coord)
     }
 
-    fun voronoiEdge(): LineSegment {
+    fun voronoiEdge(): LineSegment? {
         if (!visible) {
-            return LineSegment(null, null)
+            return null
         }
-        return LineSegment(clippedEnds!![LR.LEFT],
-                clippedEnds!![LR.RIGHT])
+        return LineSegment(clippedEnds!![LR.LEFT]!!,
+                clippedEnds!![LR.RIGHT]!!)
     }
 
     fun setVertex(leftRight: LR, v: Vertex) {
@@ -76,26 +76,11 @@ class Edge private constructor() {
         get() = leftVertex == null || rightVertex == null
 
     fun sitesDistance(): Double {
-        return Point.distance(leftSite.coord!!, rightSite.coord!!)
+        return Point.distance(leftSite.coord, rightSite.coord)
     }
 
     fun site(leftRight: LR): Site {
         return sites!![leftRight]!!
-    }
-
-
-    fun dispose() {
-
-        leftVertex = null
-        rightVertex = null
-        if (clippedEnds != null) {
-            clippedEnds!!.clear()
-            clippedEnds = null
-        }
-        sites!!.clear()
-        sites = null
-
-        pool.push(this)
     }
 
     init {
@@ -228,8 +213,6 @@ class Edge private constructor() {
     }
 
     companion object {
-
-        private val pool = Stack<Edge>()
         private var nedges = 0
         val DELETED = Edge()
 
@@ -266,7 +249,7 @@ class Edge private constructor() {
                 c /= dy
             }
 
-            val edge = create()
+            val edge = Edge()
 
             edge.leftSite = site0
             edge.rightSite = site1
@@ -280,17 +263,6 @@ class Edge private constructor() {
             edge.b = b
             edge.c = c
 
-            return edge
-        }
-
-        private fun create(): Edge {
-            val edge: Edge
-            if (pool.size > 0) {
-                edge = pool.pop()
-                edge.init()
-            } else {
-                edge = Edge()
-            }
             return edge
         }
 

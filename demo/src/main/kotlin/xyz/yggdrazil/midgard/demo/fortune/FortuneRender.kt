@@ -8,15 +8,45 @@ import java.util.*
 /**
  * Created by Alexandre Mommers on 28/10/16.
  */
-class FortuneRender {
+class FortuneRender(val context: GraphicsContext) {
 
     data class Settings(var showVoronoi: Boolean = true,
-                        var showDelaunay: Boolean = true)
+                        var showDelaunay: Boolean = false)
 
     val settings = Settings()
 
-    fun draw(context: GraphicsContext, voronoi: Voronoi, width: Double, height: Double) {
+    fun draw(voronoi: Voronoi, width: Double, height: Double) {
+        context.clearRect(.0, .0, width, height)
 
+        if (settings.showVoronoi) {
+            drawVoronoi(voronoi, width, height)
+        }
+
+        if (settings.showDelaunay) {
+            drawDelaunay(voronoi, width, height)
+        }
+    }
+
+    private fun drawDelaunay(voronoi: Voronoi, width: Double, height: Double) {
+
+        context.stroke = Color.WHITE
+
+        voronoi.siteCoords()
+                .flatMap {
+                    voronoi.delaunayLinesForSite(it)
+                }
+                .forEach { line ->
+                    context.strokeLine(
+                            rasterize(line.p0.x, width, voronoi.plotBounds.width),
+                            rasterize(line.p0.y, height, voronoi.plotBounds.height),
+
+                            rasterize(line.p1.x, width, voronoi.plotBounds.width),
+                            rasterize(line.p1.y, height, voronoi.plotBounds.height)
+                    )
+                }
+    }
+
+    private fun drawVoronoi(voronoi: Voronoi, width: Double, height: Double) {
         context.stroke = Color.BLACK
         voronoi.siteCoords()
                 .forEach { origin ->

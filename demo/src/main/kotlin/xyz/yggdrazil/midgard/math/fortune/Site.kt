@@ -2,38 +2,20 @@ package xyz.yggdrazil.midgard.math.fortune
 
 import xyz.yggdrazil.midgard.math.geometry.Point
 import xyz.yggdrazil.midgard.math.geometry.Rectangle
-import java.awt.Color
 import java.util.*
 
-class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
+class Site(override var coord: Point, private var siteIndex: Int) : ICoord {
 
-    override var coord: Point? = null
-    var weight: Double = 0.toDouble()
     // the edges that define this Site's Voronoi region:
-    var edges: ArrayList<Edge>? = null
+    var edges = ArrayList<Edge>()
 
-    private var _siteIndex: Int = 0
     // which end of each edge hooks up with the previous edge in edges:
-    private var _edgeOrientations: ArrayList<LR>? = null
+    private var edgeOrientations: ArrayList<LR>? = null
     // ordered list of points that define the region clipped to bounds:
-    private var _region: ArrayList<Point>? = null
-
-    init {
-        init(p, index, weight, color)
-    }
-
-    private fun init(p: Point, index: Int, weight: Double, color: Color?): Site {
-        coord = p
-        _siteIndex = index
-        this.weight = weight
-        this.color = color
-        edges = ArrayList()
-        _region = null
-        return this
-    }
+    private var region: ArrayList<Point>? = null
 
     override fun toString(): String {
-        return "Site $_siteIndex: $coord"
+        return "Site $siteIndex: $coord"
     }
 
     private fun move(p: Point) {
@@ -41,46 +23,37 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
         coord = p
     }
 
-    fun dispose() {
-        coord = null
-        clear()
-        pool.push(this)
-    }
-
     private fun clear() {
-        if (edges != null) {
-            edges!!.clear()
-            edges = null
+        edges.clear()
+
+        if (edgeOrientations != null) {
+            edgeOrientations!!.clear()
+            edgeOrientations = null
         }
-        if (_edgeOrientations != null) {
-            _edgeOrientations!!.clear()
-            _edgeOrientations = null
-        }
-        if (_region != null) {
-            _region!!.clear()
-            _region = null
+        if (region != null) {
+            region!!.clear()
+            region = null
         }
     }
 
     internal fun addEdge(edge: Edge) {
-        edges!!.add(edge)
+        edges.add(edge)
     }
 
     fun nearestEdge(): Edge {
-        // edges.sort(Edge.compareSitesDistances);
-        Collections.sort(edges!!) { o1, o2 -> Edge.compareSitesDistances(o1, o2).toInt() }
-        return edges!![0]
+        Collections.sort(edges) { o1, o2 -> Edge.compareSitesDistances(o1, o2).toInt() }
+        return edges[0]
     }
 
     internal fun neighborSites(): ArrayList<Site?> {
-        if (edges == null || edges!!.isEmpty()) {
+        if (edges.isEmpty()) {
             return ArrayList()
         }
-        if (_edgeOrientations == null) {
+        if (edgeOrientations == null) {
             reorderEdges()
         }
         val list = ArrayList<Site?>()
-        for (edge in edges!!) {
+        for (edge in edges) {
             list.add(neighborSite(edge))
         }
         return list
@@ -97,34 +70,35 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
     }
 
     internal fun region(clippingBounds: Rectangle): ArrayList<Point>? {
-        if (edges == null || edges!!.isEmpty()) {
+        if (edges.isEmpty()) {
             return ArrayList()
         }
-        if (_edgeOrientations == null) {
+        if (edgeOrientations == null) {
             reorderEdges()
-            _region = clipToBounds(clippingBounds)
-            if (Polygon(_region!!).winding() == Winding.CLOCKWISE) {
-                Collections.reverse(_region!!)
+            region = clipToBounds(clippingBounds)
+            if (Polygon(region!!).winding() == Winding.CLOCKWISE) {
+                Collections.reverse(region!!)
             }
         }
-        return _region
+        return region
     }
 
     private fun reorderEdges() {
-        //trace("edges:", edges);
-        val reorderer = EdgeReorderer(edges!!, Vertex::class.java)
-        edges = reorderer.edges
-        //trace("reordered:", edges);
-        _edgeOrientations = reorderer.edgeOrientations
+        val reorderer = EdgeReorderer(edges, Vertex::class.java)
+        reorderer.edges?.let { edges ->
+            this.edges = edges
+        }
+
+        edgeOrientations = reorderer.edgeOrientations
         reorderer.dispose()
     }
 
     private fun clipToBounds(bounds: Rectangle): ArrayList<Point> {
         val points = ArrayList<Point>()
-        val n = edges!!.size
+        val n = edges.size
         var i = 0
         var edge: Edge
-        while (i < n && !edges!![i].visible) {
+        while (i < n && !edges[i].visible) {
             ++i
         }
 
@@ -132,13 +106,13 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
             // no edges visible
             return ArrayList()
         }
-        edge = edges!![i]
-        val orientation = _edgeOrientations!![i]
+        edge = edges[i]
+        val orientation = edgeOrientations!![i]
         points.add(edge.clippedEnds!![orientation]!!)
         points.add(edge.clippedEnds!![LR.other(orientation)]!!)
 
         for (j in i + 1..n - 1) {
-            edge = edges!![j]
+            edge = edges[j]
             if (!edge.visible) {
                 continue
             }
@@ -152,8 +126,8 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
 
     private fun connect(points: ArrayList<Point>, j: Int, bounds: Rectangle, closingUp: Boolean) {
         val rightPoint = points[points.size - 1]
-        val newEdge = edges!![j]
-        val newOrientation = _edgeOrientations!![j]
+        val newEdge = edges[j]
+        val newOrientation = edgeOrientations!![j]
         // the point that  must be connected to rightPoint:
         val newPoint = newEdge.clippedEnds!![newOrientation]
         if (!closeEnough(rightPoint, newPoint!!)) {
@@ -252,27 +226,18 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
     }
 
     val _x: Double
-        get() = coord!!.x
+        get() = coord.x
 
     val _y: Double
-        get() = coord!!.y
+        get() = coord.y
 
     fun dist(p: ICoord): Double {
-        return Point.distance(p.coord!!, this.coord!!)
+        return Point.distance(p.coord, this.coord)
     }
 
     companion object {
 
         private val EPSILON = .005
-        private val pool = Stack<Site>()
-
-        fun create(p: Point, index: Int, weight: Double, color: Color?): Site {
-            if (pool.size > 0) {
-                return pool.pop().init(p, index, weight, color)
-            } else {
-                return Site(p, index, weight, color)
-            }
-        }
 
         fun sortSites(sites: ArrayList<Site>) {
             //sites.sort(Site.compare);
@@ -280,8 +245,8 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
         }
 
         /**
-         * sort sites on y, then x, coord also change each site's _siteIndex to
-         * match its new position in the list so the _siteIndex can be used to
+         * sort sites on y, then x, coord also change each site's siteIndex to
+         * match its new position in the list so the siteIndex can be used to
          * identify the site for nearest-neighbor queries
          *
          *
@@ -290,19 +255,19 @@ class Site(p: Point, index: Int, weight: Double, var color: Color?) : ICoord {
         private fun compare(s1: Site, s2: Site): Double {
             val returnValue = compareByYThenX(s1, s2)
 
-            // swap _siteIndex values if necessary to match new ordering:
+            // swap siteIndex values if necessary to match new ordering:
             val tempIndex: Int
             if (returnValue == -1) {
-                if (s1._siteIndex > s2._siteIndex) {
-                    tempIndex = s1._siteIndex
-                    s1._siteIndex = s2._siteIndex
-                    s2._siteIndex = tempIndex
+                if (s1.siteIndex > s2.siteIndex) {
+                    tempIndex = s1.siteIndex
+                    s1.siteIndex = s2.siteIndex
+                    s2.siteIndex = tempIndex
                 }
             } else if (returnValue == 1) {
-                if (s2._siteIndex > s1._siteIndex) {
-                    tempIndex = s2._siteIndex
-                    s2._siteIndex = s1._siteIndex
-                    s1._siteIndex = tempIndex
+                if (s2.siteIndex > s1.siteIndex) {
+                    tempIndex = s2.siteIndex
+                    s2.siteIndex = s1.siteIndex
+                    s1.siteIndex = tempIndex
                 }
 
             }
