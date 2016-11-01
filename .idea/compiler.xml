@@ -14,31 +14,9 @@
       <entry name="!?*.aj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true">
+      <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="algorithm_main" target="1.8" />
-      <module name="algorithm_test" target="1.8" />
-      <module name="delaunay_main" target="1.8" />
-      <module name="delaunay_test" target="1.8" />
-      <module name="fortune-algorithm_main" target="1.8" />
-      <module name="fortune-algorithm_test" target="1.8" />
-      <module name="fortune_main" target="1.8" />
-      <module name="fortune_test" target="1.8" />
-      <module name="preview-delaunay_main" target="1.8" />
-      <module name="preview-delaunay_test" target="1.8" />
-      <module name="preview_main" target="1.8" />
-      <module name="preview_test" target="1.8" />
-      <module name="terrain-algorithm_main" target="1.8" />
-      <module name="terrain-algorithm_test" target="1.8" />
-      <module name="terrain_main" target="1.8" />
-      <module name="terrain_test" target="1.8" />
-      <module name="test2_main" target="1.8" />
-      <module name="test2_test" target="1.8" />
-      <module name="test_main" target="1.8" />
-      <module name="test_test" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,7 +1,0 @@
-apply plugin: 'application'
-mainClassName = "xyz.yggdrazil.AppKt"
-
-
-dependencies {
-    compile project(':algorithm:delaunay')
-}
