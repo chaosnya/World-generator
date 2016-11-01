@@ -122,7 +122,7 @@ class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites
 
         /* Update hash table and reference counts */
         if (bucket > 0 && bucket < hashsize - 1) {
-            hash.set(bucket, halfEdge)
+            hash[bucket] = halfEdge
         }
         return halfEdge!!
     }
@@ -137,7 +137,7 @@ class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites
         halfEdge = hash[b]
         if (halfEdge != null && halfEdge.edge == Edge.DELETED) {
             /* Hash table points to deleted halfedge.  Patch as necessary. */
-            hash.set(b, null)
+            hash[b] = null
             // still can't dispose halfEdge yet!
             return null
         } else {

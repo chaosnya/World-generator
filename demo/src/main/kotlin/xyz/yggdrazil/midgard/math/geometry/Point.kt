@@ -5,7 +5,7 @@ package xyz.yggdrazil.midgard.math.geometry
  */
 class Point(var x: Double, var y: Double) {
 
-    override fun toString(): String = "${x}, ${y}"
+    override fun toString(): String = "$x, $y"
 
     fun length(): Double = Math.sqrt(x * x + y * y)
 

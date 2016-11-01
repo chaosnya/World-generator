@@ -58,8 +58,8 @@ class FortuneRender(val context: GraphicsContext) {
                     context.beginPath()
                     val region = voronoi.region(origin)
                     context.moveTo(
-                            rasterize(region.get(0).x, width, voronoi.plotBounds.width),
-                            rasterize(region.get(0).y, height, voronoi.plotBounds.height)
+                            rasterize(region[0].x, width, voronoi.plotBounds.width),
+                            rasterize(region[0].y, height, voronoi.plotBounds.height)
                     )
                     region.forEach { point ->
                         context.lineTo(

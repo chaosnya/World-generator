@@ -1,4 +1,4 @@
-package xyz.yggdrazil.midgard.map.voronoi
+package xyz.yggdrazil.midgard.test.voronoi
 
 import xyz.yggdrazil.midgard.math.geometry.Point
 import java.util.*

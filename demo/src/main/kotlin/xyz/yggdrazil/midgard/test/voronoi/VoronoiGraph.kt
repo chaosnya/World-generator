@@ -1,4 +1,4 @@
-package xyz.yggdrazil.midgard.map.voronoi
+package xyz.yggdrazil.midgard.test.voronoi
 
 import xyz.yggdrazil.midgard.math.fortune.Voronoi
 import xyz.yggdrazil.midgard.math.geometry.Point
@@ -204,7 +204,7 @@ abstract class VoronoiGraph(var voronoi: Voronoi, numLloydRelaxations: Int, priv
     @JvmOverloads fun paint(g: Graphics2D, drawBiomes: Boolean = true, drawRivers: Boolean = true, drawSites: Boolean = false, drawCorners: Boolean = false, drawDelaunay: Boolean = false) {
         val numSites = centers.size
 
-        var defaultColors = ArrayList<Color>(numSites)
+        val defaultColors = ArrayList<Color>(numSites)
         if (!drawBiomes) {
             for (i in defaultColors.indices) {
                 defaultColors.add(Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)))
@@ -274,8 +274,8 @@ abstract class VoronoiGraph(var voronoi: Voronoi, numLloydRelaxations: Int, priv
             vEdge?.let {
                 edge.v1 = makeCorner(pointCornerMap, vEdge.p1)
             }
-            edge.d0 = pointCenterMap.get(dEdge.p0)
-            edge.d1 = pointCenterMap.get(dEdge.p1)
+            edge.d0 = pointCenterMap[dEdge.p0]
+            edge.d1 = pointCenterMap[dEdge.p1]
 
             // Centers point to edges. Corners point to edges.
             if (edge.d0 != null) {
@@ -479,7 +479,7 @@ abstract class VoronoiGraph(var voronoi: Voronoi, numLloydRelaxations: Int, priv
     }
 
     private fun redistributeElevations(landCorners: ArrayList<Corner>) {
-        Collections.sort(landCorners, Comparator<xyz.yggdrazil.midgard.map.voronoi.Corner> { o1, o2 ->
+        Collections.sort(landCorners, Comparator<xyz.yggdrazil.midgard.test.voronoi.Corner> { o1, o2 ->
             if (o1.elevation > o2.elevation) {
                 return@Comparator 1
             } else if (o1.elevation < o2.elevation) {
@@ -590,7 +590,7 @@ abstract class VoronoiGraph(var voronoi: Voronoi, numLloydRelaxations: Int, priv
     }
 
     private fun redistributeMoisture(landCorners: ArrayList<Corner>) {
-        Collections.sort(landCorners, Comparator<xyz.yggdrazil.midgard.map.voronoi.Corner> { o1, o2 ->
+        Collections.sort(landCorners, Comparator<xyz.yggdrazil.midgard.test.voronoi.Corner> { o1, o2 ->
             if (o1.moisture > o2.moisture) {
                 return@Comparator 1
             } else if (o1.moisture < o2.moisture) {

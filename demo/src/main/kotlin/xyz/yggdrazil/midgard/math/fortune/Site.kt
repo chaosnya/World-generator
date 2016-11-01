@@ -18,24 +18,6 @@ class Site(override var coord: Point, private var siteIndex: Int) : ICoord {
         return "Site $siteIndex: $coord"
     }
 
-    private fun move(p: Point) {
-        clear()
-        coord = p
-    }
-
-    private fun clear() {
-        edges.clear()
-
-        if (edgeOrientations != null) {
-            edgeOrientations!!.clear()
-            edgeOrientations = null
-        }
-        if (region != null) {
-            region!!.clear()
-            region = null
-        }
-    }
-
     internal fun addEdge(edge: Edge) {
         edges.add(edge)
     }

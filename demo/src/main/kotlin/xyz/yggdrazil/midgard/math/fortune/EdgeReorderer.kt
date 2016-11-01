@@ -6,7 +6,7 @@ class EdgeReorderer(origEdges: ArrayList<Edge>, criterion: Class<*>) {
 
     var edges = ArrayList<Edge>()
         private set
-    val edgeOrientations: ArrayList<LR> = ArrayList<LR>()
+    val edgeOrientations = ArrayList<LR>()
 
     init {
         if (criterion != Vertex::class.java && criterion != Site::class.java) {
@@ -47,7 +47,7 @@ class EdgeReorderer(origEdges: ArrayList<Edge>, criterion: Class<*>) {
         while (nDone < n) {
             i = 1
             while (i < n) {
-                if (done.get(i)) {
+                if (done[i]) {
                     ++i
                     continue
                 }
@@ -61,7 +61,7 @@ class EdgeReorderer(origEdges: ArrayList<Edge>, criterion: Class<*>) {
                     lastPoint = rightPoint
                     edgeOrientations.add(LR.LEFT)
                     newEdges.add(edge)
-                    done.set(i, true)
+                    done[i] = true
                 } else if (rightPoint === firstPoint) {
                     firstPoint = leftPoint
                     edgeOrientations.add(0, LR.LEFT)

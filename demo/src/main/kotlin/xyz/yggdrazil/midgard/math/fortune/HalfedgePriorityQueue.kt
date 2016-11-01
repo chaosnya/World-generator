@@ -3,38 +3,29 @@ package xyz.yggdrazil.midgard.math.fortune
 import xyz.yggdrazil.midgard.math.geometry.Point
 import java.util.*
 
-class HalfedgePriorityQueue // also known as heap
-(private val ymin: Double, private val deltay: Double, sqrt_nsites: Int) {
+// also known as heap
+class HalfedgePriorityQueue(private val ymin: Double, private val deltay: Double, sqrt_nsites: Int) {
 
-    private var hash: ArrayList<Halfedge>? = null
-    private var count: Int = 0
-    private var minBucket: Int = 0
-    private val hashsize: Int
+    private var hash: ArrayList<Halfedge>
+    private var count = 0
+    private var minBucket = 0
+    private val hashSize = 4 * sqrt_nsites
 
     init {
-        hashsize = 4 * sqrt_nsites
-
-        var i: Int
-
-        count = 0
-        minBucket = 0
-        hash = ArrayList<Halfedge>(hashsize)
+        hash = ArrayList<Halfedge>(hashSize)
         // dummy Halfedge at the top of each hash
-        i = 0
-        while (i < hashsize) {
-            hash!!.add(Halfedge.createDummy())
-            hash!![i].nextInPriorityQueue = null
-            ++i
+        for (i in 0..hashSize - 1) {
+            hash.add(Halfedge.createDummy())
+            hash[i].nextInPriorityQueue = null
         }
     }
 
     fun dispose() {
         // get rid of dummies
-        for (i in 0..hashsize - 1) {
-            hash!![i].dispose()
+        for (i in 0..hashSize - 1) {
+            hash[i].dispose()
         }
-        hash!!.clear()
-        hash = null
+        hash.clear()
     }
 
     fun insert(halfEdge: Halfedge) {
@@ -44,9 +35,9 @@ class HalfedgePriorityQueue // also known as heap
         if (insertionBucket < minBucket) {
             minBucket = insertionBucket
         }
-        previous = hash!![insertionBucket]
+        previous = hash[insertionBucket]
         next = previous.nextInPriorityQueue
-        while (next is Halfedge && (halfEdge.ystar > next.ystar || halfEdge.ystar == next.ystar && halfEdge.vertex!!._x > next.vertex!!._x)) {
+        while (next is Halfedge && (halfEdge.ystar > next.ystar || halfEdge.ystar == next.ystar && halfEdge.vertex!!.x > next.vertex!!.x)) {
             previous = next
             next = previous.nextInPriorityQueue
         }
@@ -60,7 +51,7 @@ class HalfedgePriorityQueue // also known as heap
         val removalBucket = bucket(halfEdge)
 
         if (halfEdge.vertex != null) {
-            previous = hash!![removalBucket]
+            previous = hash[removalBucket]
             while (previous.nextInPriorityQueue != halfEdge) {
                 previous = previous.nextInPriorityQueue!!
             }
@@ -73,18 +64,18 @@ class HalfedgePriorityQueue // also known as heap
     }
 
     private fun bucket(halfEdge: Halfedge): Int {
-        var theBucket = ((halfEdge.ystar - ymin) / deltay * hashsize).toInt()
+        var theBucket = ((halfEdge.ystar - ymin) / deltay * hashSize).toInt()
         if (theBucket < 0) {
             theBucket = 0
         }
-        if (theBucket >= hashsize) {
-            theBucket = hashsize - 1
+        if (theBucket >= hashSize) {
+            theBucket = hashSize - 1
         }
         return theBucket
     }
 
     private fun isEmpty(bucket: Int): Boolean {
-        return hash!![bucket].nextInPriorityQueue == null
+        return hash[bucket].nextInPriorityQueue == null
     }
 
     /**
@@ -92,7 +83,7 @@ class HalfedgePriorityQueue // also known as heap
      * at the top);
      */
     private fun adjustMinBucket() {
-        while (minBucket < hashsize - 1 && isEmpty(minBucket)) {
+        while (minBucket < hashSize - 1 && isEmpty(minBucket)) {
             ++minBucket
         }
     }
@@ -107,8 +98,8 @@ class HalfedgePriorityQueue // also known as heap
      */
     fun min(): Point {
         adjustMinBucket()
-        val answer = hash!![minBucket].nextInPriorityQueue
-        return Point(answer!!.vertex!!._x, answer.ystar)
+        val answer = hash[minBucket].nextInPriorityQueue
+        return Point(answer!!.vertex!!.x, answer.ystar)
     }
 
     /**
@@ -120,9 +111,9 @@ class HalfedgePriorityQueue // also known as heap
         val answer: Halfedge
 
         // get the first real Halfedge in minBucket
-        answer = hash!![minBucket].nextInPriorityQueue!!
+        answer = hash[minBucket].nextInPriorityQueue!!
 
-        hash!![minBucket].nextInPriorityQueue = answer.nextInPriorityQueue
+        hash[minBucket].nextInPriorityQueue = answer.nextInPriorityQueue
         count--
         answer.nextInPriorityQueue = null
 

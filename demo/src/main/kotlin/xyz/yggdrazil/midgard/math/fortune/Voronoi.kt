@@ -230,7 +230,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
                     vertices.add(vertex)
                     heap.remove(lbnd)
                     lbnd.vertex = vertex
-                    lbnd.ystar = vertex._y + newSite!!.dist(vertex)
+                    lbnd.ystar = vertex.y + newSite!!.dist(vertex)
                     heap.insert(lbnd)
                 }
 
@@ -245,7 +245,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
                 Vertex.intersect(bisector, rbnd)?.let { vertex ->
                     vertices.add(vertex)
                     bisector.vertex = vertex
-                    bisector.ystar = vertex._y + newSite!!.dist(vertex)
+                    bisector.ystar = vertex.y + newSite!!.dist(vertex)
                     heap.insert(bisector)
                 }
 
@@ -286,13 +286,13 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
                     vertices.add(vertex)
                     heap.remove(llbnd)
                     llbnd.vertex = vertex
-                    llbnd.ystar = vertex._y + bottomSite.dist(vertex)
+                    llbnd.ystar = vertex.y + bottomSite.dist(vertex)
                     heap.insert(llbnd)
                 }
                 Vertex.intersect(bisector, rrbnd)?.let { vertex ->
                     vertices.add(vertex)
                     bisector.vertex = vertex
-                    bisector.ystar = vertex._y + bottomSite.dist(vertex)
+                    bisector.ystar = vertex.y + bottomSite.dist(vertex)
                     heap.insert(bisector)
                 }
             } else {

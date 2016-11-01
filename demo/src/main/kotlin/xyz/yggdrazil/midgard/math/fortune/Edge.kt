@@ -93,7 +93,7 @@ class Edge private constructor() {
     }
 
     override fun toString(): String {
-        return "Edge ${edgeIndex}; sites ${sites!![LR.LEFT]}, ${sites!![LR.RIGHT]}; endVertices ${leftVertex?.vertexIndex}, ${rightVertex?.vertexIndex}::"
+        return "Edge $edgeIndex; sites ${sites!![LR.LEFT]}, ${sites!![LR.RIGHT]}; endVertices ${leftVertex?.vertexIndex}, ${rightVertex?.vertexIndex}::"
     }
 
     /**
@@ -126,8 +126,8 @@ class Edge private constructor() {
 
         if (a == 1.0) {
             y0 = ymin
-            if (vertex0 != null && vertex0._y > ymin) {
-                y0 = vertex0._y
+            if (vertex0 != null && vertex0.y > ymin) {
+                y0 = vertex0.y
             }
             if (y0 > ymax) {
                 return
@@ -135,8 +135,8 @@ class Edge private constructor() {
             x0 = c - b * y0
 
             y1 = ymax
-            if (vertex1 != null && vertex1._y < ymax) {
-                y1 = vertex1._y
+            if (vertex1 != null && vertex1.y < ymax) {
+                y1 = vertex1.y
             }
             if (y1 < ymin) {
                 return
@@ -164,8 +164,8 @@ class Edge private constructor() {
             }
         } else {
             x0 = xmin
-            if (vertex0 != null && vertex0._x > xmin) {
-                x0 = vertex0._x
+            if (vertex0 != null && vertex0.x > xmin) {
+                x0 = vertex0.x
             }
             if (x0 > xmax) {
                 return
@@ -173,8 +173,8 @@ class Edge private constructor() {
             y0 = c - a * x0
 
             x1 = xmax
-            if (vertex1 != null && vertex1._x < xmax) {
-                x1 = vertex1._x
+            if (vertex1 != null && vertex1.x < xmax) {
+                x1 = vertex1.x
             }
             if (x1 < xmin) {
                 return

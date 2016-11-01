@@ -4,14 +4,13 @@ import xyz.yggdrazil.midgard.math.geometry.Point
 
 class Vertex(x: Double, y: Double) : ICoord {
 
-    override lateinit var coord: Point
-
+    override var coord: Point = Point(x, y)
     var vertexIndex: Int = 0
         private set
-
-    init {
-        coord = Point(x, y)
-    }
+    val x: Double
+        get() = coord.x
+    val y: Double
+        get() = coord.y
 
     fun setIndex() {
         vertexIndex = nvertices++
@@ -20,12 +19,6 @@ class Vertex(x: Double, y: Double) : ICoord {
     override fun toString(): String {
         return "Vertex ($vertexIndex)"
     }
-
-    val _x: Double
-        get() = coord.x
-
-    val _y: Double
-        get() = coord.y
 
     companion object {
 
@@ -43,7 +36,6 @@ class Vertex(x: Double, y: Double) : ICoord {
 
         /**
          * This is the only way to make a Vertex
-
          * @param halfedge0
          * *
          * @param halfedge1

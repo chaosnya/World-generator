@@ -1,8 +1,8 @@
-package xyz.yggdrazil.midgard.map.examples
+package xyz.yggdrazil.midgard.test.examples
 
-import xyz.yggdrazil.midgard.map.voronoi.Center
-import xyz.yggdrazil.midgard.map.voronoi.VoronoiGraph
 import xyz.yggdrazil.midgard.math.fortune.Voronoi
+import xyz.yggdrazil.midgard.test.voronoi.Center
+import xyz.yggdrazil.midgard.test.voronoi.VoronoiGraph
 import java.awt.Color
 import java.util.*
 

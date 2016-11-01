@@ -2,7 +2,7 @@ package xyz.yggdrazil.midgard.math.fortune
 
 import xyz.yggdrazil.midgard.math.geometry.Point
 
-class LineSegment(var p0: Point, var p1: Point) {
+class LineSegment(val p0: Point, val p1: Point) {
     companion object {
 
         fun compareLengths_MAX(segment0: LineSegment, segment1: LineSegment): Double {

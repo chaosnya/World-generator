@@ -8,15 +8,14 @@ class SiteList {
     private val sites = ArrayList<Site>()
     private var currentIndex = 0
     private var sorted = false
+    val length: Int
+        get() = sites.size
 
     fun push(site: Site): Int {
         sorted = false
         sites.add(site)
         return sites.size
     }
-
-    val length: Int
-        get() = sites.size
 
     operator fun next(): Site? {
         if (!sorted) {
@@ -59,7 +58,7 @@ class SiteList {
 
             return Rectangle(xmin, ymin, xmax - xmin, ymax - ymin)
         }
-    
+
     fun siteCoords(): ArrayList<Point> {
         val coords = ArrayList<Point>()
         for (site in sites) {
