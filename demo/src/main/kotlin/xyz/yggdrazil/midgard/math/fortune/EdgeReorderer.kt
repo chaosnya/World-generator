@@ -4,26 +4,19 @@ import java.util.*
 
 class EdgeReorderer(origEdges: ArrayList<Edge>, criterion: Class<*>) {
 
-    var edges: ArrayList<Edge>? = null
+    var edges = ArrayList<Edge>()
         private set
-    var edgeOrientations: ArrayList<LR>? = null
-        private set
+    val edgeOrientations: ArrayList<LR> = ArrayList<LR>()
 
     init {
         if (criterion != Vertex::class.java && criterion != Site::class.java) {
             throw Error("Edges: criterion must be Vertex or Site")
         }
-        edges = ArrayList<Edge>()
-        edgeOrientations = ArrayList<LR>()
         if (origEdges.size > 0) {
             edges = reorderEdges(origEdges, criterion)
         }
     }
 
-    fun dispose() {
-        edges = null
-        edgeOrientations = null
-    }
 
     private fun reorderEdges(origEdges: ArrayList<Edge>, criterion: Class<*>): ArrayList<Edge> {
         var i: Int
@@ -40,7 +33,7 @@ class EdgeReorderer(origEdges: ArrayList<Edge>, criterion: Class<*>) {
         i = 0
         edge = origEdges[i]
         newEdges.add(edge)
-        edgeOrientations!!.add(LR.LEFT)
+        edgeOrientations.add(LR.LEFT)
         var firstPoint = if (criterion == Vertex::class.java) edge.leftVertex else edge.leftSite
         var lastPoint = if (criterion == Vertex::class.java) edge.rightVertex else edge.rightSite
 
@@ -66,23 +59,23 @@ class EdgeReorderer(origEdges: ArrayList<Edge>, criterion: Class<*>) {
                 }
                 if (leftPoint === lastPoint) {
                     lastPoint = rightPoint
-                    edgeOrientations!!.add(LR.LEFT)
+                    edgeOrientations.add(LR.LEFT)
                     newEdges.add(edge)
                     done.set(i, true)
                 } else if (rightPoint === firstPoint) {
                     firstPoint = leftPoint
-                    edgeOrientations!!.add(0, LR.LEFT)
+                    edgeOrientations.add(0, LR.LEFT)
                     newEdges.add(0, edge)
                     done[i] = true
                 } else if (leftPoint === firstPoint) {
                     firstPoint = rightPoint
-                    edgeOrientations!!.add(0, LR.RIGHT)
+                    edgeOrientations.add(0, LR.RIGHT)
                     newEdges.add(0, edge)
 
                     done[i] = true
                 } else if (rightPoint === lastPoint) {
                     lastPoint = leftPoint
-                    edgeOrientations!!.add(LR.RIGHT)
+                    edgeOrientations.add(LR.RIGHT)
                     newEdges.add(edge)
                     done[i] = true
                 }

@@ -1,7 +1,6 @@
 package xyz.yggdrazil.midgard.math.fortune
 
 import xyz.yggdrazil.midgard.math.geometry.Point
-import java.util.*
 
 class Halfedge(edge: Edge?, lr: LR?) {
     var edgeListLeftNeighbor: Halfedge? = null
@@ -41,17 +40,6 @@ class Halfedge(edge: Edge?, lr: LR?) {
         edge = null
         leftRight = null
         vertex = null
-        pool.push(this)
-    }
-
-    fun reallyDispose() {
-        edgeListLeftNeighbor = null
-        edgeListRightNeighbor = null
-        nextInPriorityQueue = null
-        edge = null
-        leftRight = null
-        vertex = null
-        pool.push(this)
     }
 
     fun isLeftOf(p: Point): Boolean {
@@ -112,18 +100,8 @@ class Halfedge(edge: Edge?, lr: LR?) {
 
     companion object {
 
-        private val pool = Stack<Halfedge>()
-
-        fun create(edge: Edge?, lr: LR?): Halfedge {
-            if (pool.size > 0) {
-                return pool.pop().init(edge, lr)
-            } else {
-                return Halfedge(edge, lr)
-            }
-        }
-
         fun createDummy(): Halfedge {
-            return create(null, null)
+            return Halfedge(null, null)
         }
     }
 }

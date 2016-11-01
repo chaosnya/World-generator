@@ -5,7 +5,7 @@ import java.util.*
 
 class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites: Int) {
     private val hashsize: Int
-    private var hash: ArrayList<Halfedge?>? = null
+    private var hash: ArrayList<Halfedge?>
     var leftEnd: Halfedge? = null
     var rightEnd: Halfedge? = null
 
@@ -21,8 +21,7 @@ class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites
         rightEnd!!.dispose()
         rightEnd = null
 
-        hash!!.clear()
-        hash = null
+        hash.clear()
     }
 
     init {
@@ -39,11 +38,11 @@ class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites
         rightEnd!!.edgeListRightNeighbor = null
 
         for (i in 0..hashsize - 1) {
-            hash!!.add(null)
+            hash.add(null)
         }
 
-        hash!![0] = leftEnd
-        hash!![hashsize - 1] = rightEnd
+        hash[0] = leftEnd
+        hash[hashsize - 1] = rightEnd
     }
 
     /**
@@ -123,7 +122,7 @@ class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites
 
         /* Update hash table and reference counts */
         if (bucket > 0 && bucket < hashsize - 1) {
-            hash!!.set(bucket, halfEdge)
+            hash.set(bucket, halfEdge)
         }
         return halfEdge!!
     }
@@ -135,10 +134,10 @@ class EdgeList(private val xmin: Double, private val deltax: Double, sqrt_nsites
         if (b < 0 || b >= hashsize) {
             return null
         }
-        halfEdge = hash!![b]
+        halfEdge = hash[b]
         if (halfEdge != null && halfEdge.edge == Edge.DELETED) {
             /* Hash table points to deleted halfedge.  Patch as necessary. */
-            hash!!.set(b, null)
+            hash.set(b, null)
             // still can't dispose halfEdge yet!
             return null
         } else {

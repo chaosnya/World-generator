@@ -4,7 +4,7 @@ import xyz.yggdrazil.midgard.math.geometry.Point
 import xyz.yggdrazil.midgard.math.geometry.Rectangle
 
 /**
- * Created by amo on 29/09/16.
+ * Created by Alexandre Mommers on 29/09/16.
  */
 
 internal object BoundsCheck {

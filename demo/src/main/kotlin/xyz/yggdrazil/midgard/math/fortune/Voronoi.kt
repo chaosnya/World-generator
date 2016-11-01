@@ -149,16 +149,15 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
         }
 
         val reorderer = EdgeReorderer(hullEdges, Site::class.java)
-        hullEdges = reorderer.edges!!
+        hullEdges = reorderer.edges
         val orientations = reorderer.edgeOrientations
-        reorderer.dispose()
 
         var orientation: LR
 
         val n = hullEdges.size
         for (i in 0..n - 1) {
             val edge = hullEdges[i]
-            orientation = orientations!![i]
+            orientation = orientations[i]
             points.add(edge.site(orientation).coord)
         }
         return points
@@ -220,7 +219,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
 
                 edges.add(edge)
 
-                bisector = Halfedge.create(edge, LR.LEFT)
+                bisector = Halfedge(edge, LR.LEFT)
                 halfEdges.add(bisector)
                 // inserting two Halfedges into edgeList constitutes Step 10:
                 // insert bisector to the right of lbnd:
@@ -236,7 +235,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
                 }
 
                 lbnd = bisector
-                bisector = Halfedge.create(edge, LR.RIGHT)
+                bisector = Halfedge(edge, LR.RIGHT)
                 halfEdges.add(bisector)
                 // second Halfedge for Step 10:
                 // insert bisector to the right of lbnd:
@@ -279,7 +278,7 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
                 }
                 edge = Edge.createBisectingEdge(bottomSite, topSite)
                 edges.add(edge)
-                bisector = Halfedge.create(edge, leftRight)
+                bisector = Halfedge(edge, leftRight)
                 halfEdges.add(bisector)
                 edgeList.insert(llbnd, bisector)
                 edge.setVertex(LR.other(leftRight), v)
@@ -304,10 +303,6 @@ class Voronoi(points: ArrayList<Point>, var plotBounds: Rectangle) {
         // heap should be empty now
         heap.dispose()
         edgeList.dispose()
-
-        for (halfEdge in halfEdges) {
-            halfEdge.reallyDispose()
-        }
         halfEdges.clear()
 
         // we need the vertices to clip the edges

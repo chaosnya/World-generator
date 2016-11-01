@@ -85,12 +85,9 @@ class Site(override var coord: Point, private var siteIndex: Int) : ICoord {
 
     private fun reorderEdges() {
         val reorderer = EdgeReorderer(edges, Vertex::class.java)
-        reorderer.edges?.let { edges ->
-            this.edges = edges
-        }
+        edges = reorderer.edges
 
         edgeOrientations = reorderer.edgeOrientations
-        reorderer.dispose()
     }
 
     private fun clipToBounds(bounds: Rectangle): ArrayList<Point> {
