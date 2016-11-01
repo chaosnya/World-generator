@@ -22,7 +22,7 @@ class FortuneModel {
                     random
             )
 
-            for (i in 0..settings.lloydRelaxations - 1) {
+            for (i in 1..settings.lloydRelaxations) {
                 val points = voronoi.siteCoords()
                 lloydRelaxation(points, voronoi)
                 voronoi = Voronoi(points, voronoi.plotBounds)

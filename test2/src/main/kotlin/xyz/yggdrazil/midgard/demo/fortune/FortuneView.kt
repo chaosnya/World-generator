@@ -1,17 +1,12 @@
 package xyz.yggdrazil.midgard.demo.fortune
 
-import javafx.application.Platform
-import javafx.fxml.FXML
 import javafx.scene.canvas.Canvas
-import javafx.scene.canvas.GraphicsContext
-import javafx.scene.control.*
-import javafx.scene.layout.BorderPane
+import javafx.scene.control.Button
+import javafx.scene.control.CheckBox
+import javafx.scene.control.Spinner
+import javafx.scene.control.TextField
 import javafx.scene.layout.GridPane
-import javafx.scene.paint.Color
-import javafx.scene.shape.ArcType
-import javafx.scene.text.Font
-import tornadofx.*
-import xyz.yggdrazil.midgard.demo.component.spinner.LongSpinnerValueFactory
+import tornadofx.View
 import xyz.yggdrazil.midgard.demo.selector.SelectDemoController
 
 class FortuneView : View() {
@@ -39,11 +34,13 @@ class FortuneView : View() {
             model.settings.lloydRelaxations = lloydRelaxations.valueFactory.value
             model.settings.sites = sites.valueFactory.value
 
-            render.draw(canvas.graphicsContext2D, model.voronoi)
+            render.draw(canvas.graphicsContext2D,
+                    model.voronoi,
+                    canvas.width,
+                    canvas.height)
         }
 
     }
-
 
 
 }
