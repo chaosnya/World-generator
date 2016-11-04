@@ -10,5 +10,12 @@ abstract class MapGraph<N : MapNode, S : MapSettings>(
         completion: (Double) -> Unit = {}
 ) : HashSet<N>() {
 
+    init {
+        generate(completion)
+    }
 
+    /**
+     * generate a map with given parameters
+     */
+    abstract fun generate(completion: (Double) -> Unit)
 }

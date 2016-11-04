@@ -2,6 +2,7 @@ package xyz.yggdrazil.midgard.demo.fortune
 
 import xyz.yggdrazil.midgard.math.fortune.Voronoi
 import xyz.yggdrazil.midgard.math.geometry.Point
+import xyz.yggdrazil.midgard.math.lloydRelaxation.relax
 import java.util.*
 
 /**
@@ -23,29 +24,9 @@ class FortuneModel {
             )
 
             for (i in 1..settings.lloydRelaxations) {
-                val points = voronoi.siteCoords()
-                lloydRelaxation(points, voronoi)
-                voronoi = Voronoi(points, voronoi.plotBounds)
+                voronoi = voronoi.relax()
             }
 
             return voronoi
         }
-
-
-    private fun lloydRelaxation(points: ArrayList<Point>, voronoi: Voronoi) {
-        for (p in points) {
-            val region = voronoi.region(p)
-            var x = 0.0
-            var y = 0.0
-            for (c in region) {
-                x += c.x
-                y += c.y
-            }
-            x /= region.size.toDouble()
-            y /= region.size.toDouble()
-            p.x = x
-            p.y = y
-        }
-
-    }
 }
