@@ -28,7 +28,7 @@ class VoronoiMap(settings: VoronoiMapSettings) : MapGraph<MapNode, VoronoiMapSet
                 random
         )
 
-        for (i in 1..settings.lloydRelaxations) {
+        (1..settings.lloydRelaxations).forEach {
             voronoi = voronoi.relax()
         }
 
@@ -38,7 +38,7 @@ class VoronoiMap(settings: VoronoiMapSettings) : MapGraph<MapNode, VoronoiMapSet
     private fun applyGeometryToMap(voronoi: Voronoi) {
         val nodeByCoords = HashMap<Point, MapNode>()
 
-        //create node
+        //create nodes
         voronoi.siteCoords()
                 .forEach { coordinate ->
                     val points = voronoi.region(coordinate)

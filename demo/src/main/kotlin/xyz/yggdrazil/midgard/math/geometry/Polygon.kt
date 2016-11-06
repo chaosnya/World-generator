@@ -5,7 +5,7 @@ import java.util.*
 /**
  * Created by Alexandre Mommers on 04/11/16.
  */
-open class Polygon : HashSet<Point>() {
+open class Polygon : ArrayList<Point>() {
 
     fun centroid(): Point {
         var x = .0

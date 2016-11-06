@@ -9,7 +9,7 @@ class VoronoiMapSettings(
         width: Int = 1000,
         height: Int = 1000,
         var sites: Int = 2000,
-        var lloydRelaxations: Int = 2,
+        var lloydRelaxations: Int = 5,
         var seed: Long = System.nanoTime()
 ) : MapSettings(width, height) {
 

@@ -27,7 +27,7 @@ fun main(args: Array<String>) {
     //val img = createVoronoiGraph(bounds, numSites, numLloydRelxations, seed).createMap()
     showImage(image)
     writeImageAsFile(image, mapSettings.seed, mapSettings.sites, mapSettings.lloydRelaxations)
-
+    
 }
 
 fun writeImageAsFile(image: BufferedImage, seed: Long, numSites: Int, numLloydRelxations: Int) {
