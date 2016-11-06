@@ -18,7 +18,6 @@ class VoronoiMap(settings: VoronoiMapSettings) : MapGraph<MapNode, VoronoiMapSet
         val geometry = buildInitialGeometry()
         applyGeometryToMap(geometry)
 
-        throw UnsupportedOperationException("not implemented")
     }
 
     private fun buildInitialGeometry(): Voronoi {
