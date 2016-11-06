@@ -12,3 +12,4 @@ test2/build/
 test2/output
 demo/output/
 demo/build/
+.rebel.xml.bak
