@@ -1,6 +1,0 @@
-apply plugin: 'application'
-mainClassName = "xyz.yggdrazil.midgard.math.fortune.preview.ApplicationKt"
-
-dependencies {
-    compile project(':fortune:algorithm')
-}
