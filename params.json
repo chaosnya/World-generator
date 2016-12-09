@@ -1,0 +1,6 @@
+{
+  "name": "World-generator",
+  "tagline": "World generator",
+  "body": "#Midgar World generator\r\n\r\n##Goal\r\n\r\nPlaying with [Kotlin](https://kotlinlang.org/) and create a procedural World\r\n\r\n##TODO\r\n- Map creation\r\n    - Geometry\r\n    - Biome\r\n- Countries creation\r\n- Languages creation\r\n- Species creation\r\n\r\n##WIP\r\n###Voronoi demo\r\n![current rendering](https://raw.githubusercontent.com/chaosnya/World-generator/master/screenshot/capture-1.png)\r\n###Map demo\r\nIncoming\r\n\r\n##Run\r\nTo run demo use the command line :\r\n```\r\ngradle :demo:run\r\n```\r\n\r\n##References\r\n\r\n###Map generation\r\n[Fantasy map generator](https://github.com/mewo2/terrain)\r\n\r\n[Map generation](http://www-cs-students.stanford.edu/~amitp/game-programming/polygon-map-generation/)\r\n\r\n[Fortune algorithm implementation with visual render](https://github.com/sebkur/visual-fortune-algorithm)\r\n\r\n###Voronoi algorithm\r\n[Bowyer–Watson implementation](https://github.com/ptitfred/delaunay-java)\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
